@@ -19,6 +19,6 @@ enum StructureType {
                 return structureType;
             }
         }
-        throw new IllegalArgumentException("No structure type found with code " + code);
+        throw new IllegalArgumentException("No StructureType found with code " + code);
     }
 }
