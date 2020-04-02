@@ -1,6 +1,6 @@
 package fr.jafar.site;
 
-import fr.jafar.Position;
+import fr.jafar.util.Position;
 
 import java.util.Scanner;
 

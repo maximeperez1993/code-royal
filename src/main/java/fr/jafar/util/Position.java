@@ -1,4 +1,4 @@
-package fr.jafar;
+package fr.jafar.util;
 
 import java.util.Scanner;
 
