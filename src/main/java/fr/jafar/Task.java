@@ -7,8 +7,7 @@ import fr.jafar.site.SiteManager;
 
 public class Task {
 
-	public void solve(int testNumber, Scanner ine, PrintWriter out) {
-		Scanner in = new Scanner(System.in);
+	public void solve(int testNumber, Scanner in, PrintWriter out) {
 		SiteManager siteManager = SiteManager.read(in);
 
 		// game loop
@@ -27,6 +26,7 @@ public class Task {
 
 			// Write an action using System.out.println()
 			// To debug: System.err.println("Debug messages...");
+
 
 			// First line: A valid queen action
 			// Second line: A set of training instructions

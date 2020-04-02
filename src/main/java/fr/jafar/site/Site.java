@@ -18,10 +18,13 @@ public class Site {
     }
 
     public void update(Scanner in) {
+        if (in.nextInt() != id) {
+            throw new IllegalStateException("id of site not ordered !!");
+        }
         this.state = SiteState.read(in);
     }
 
-    public static Site read(Scanner scanner) {
-        return new Site(scanner.nextInt(), Position.read(scanner), scanner.nextInt());
+    public static Site read(Scanner in) {
+        return new Site(in.nextInt(), Position.read(in), in.nextInt());
     }
 }
