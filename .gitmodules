@@ -1,0 +1,3 @@
+[submodule "coding-game-builder"]
+	path = coding-game-builder
+	url = git@gitlab.com:Wagabom/coding-game-builder.git
