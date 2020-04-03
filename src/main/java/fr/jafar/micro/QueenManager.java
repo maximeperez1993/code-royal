@@ -1,5 +1,6 @@
 package fr.jafar.micro;
 
+import fr.jafar.api.Finder;
 import fr.jafar.api.Position;
 import fr.jafar.api.Positionable;
 import fr.jafar.site.Site;
@@ -8,7 +9,6 @@ import fr.jafar.site.StructureType;
 import fr.jafar.unit.Unit;
 import fr.jafar.unit.UnitManager;
 import fr.jafar.util.MapInfos;
-import fr.jafar.util.PositionableComparator;
 
 public class QueenManager {
 
@@ -27,35 +27,20 @@ public class QueenManager {
     public void build() {
         if (this.siteManager.getMyBarracks().isEmpty()) {
             System.err.println("Try to build closest my queen");
-            this.buildClosest(StructureType.BARRACKS, unitManager.getMyQueen());
+            this.build(StructureType.BARRACKS, new Finder<>(siteManager.getNeutralSites()).sortByFarthestFrom(unitManager.getMyQueen()).get());
         } else if (this.siteManager.getMyBarracks().size() == 1) {
             System.err.println("Try to build next middle");
-            this.buildClosest(StructureType.BARRACKS, MapInfos.MIDDLE);
+            this.build(StructureType.BARRACKS, new Finder<>(siteManager.getNeutralSites()).sortByFarthestFrom(MapInfos.MIDDLE).get());
         } else {
             if (!this.siteManager.getNeutralSites().isEmpty()) {
                 System.err.println("Try to build tower");
-                this.buildClosest(StructureType.TOWER, unitManager.getMyQueen());
+                this.build(StructureType.TOWER, new Finder<>(siteManager.getNeutralSites()).sortByFarthestFrom(unitManager.getMyQueen()).get());
             } else {
                 System.err.println("Try to escape");
-                escape();
+                this.move(this.escaper.getEscapePosition());
             }
         }
     }
-
-    private void buildClosest(StructureType structureType, Positionable positionable) {
-        this.buildClosest(structureType, positionable.getPosition());
-    }
-
-    private void buildClosest(StructureType structureType, Position position) {
-        this.build(structureType, siteManager.getNeutralSites().stream()
-                .min(new PositionableComparator(position))
-                .orElseThrow(IllegalArgumentException::new));
-    }
-
-    private void escape() {
-        this.move(this.escaper.getFarthestPosition(MapInfos.CARDINALS));
-    }
-
 
     private void build(StructureType structureType, Site site) {
         System.out.println(String.format("BUILD %d %s-KNIGHT", site.getId(), structureType.name()));

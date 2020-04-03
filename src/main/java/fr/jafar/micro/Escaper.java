@@ -3,6 +3,7 @@ package fr.jafar.micro;
 import fr.jafar.api.Position;
 import fr.jafar.unit.Unit;
 import fr.jafar.unit.UnitManager;
+import fr.jafar.util.MapInfos;
 
 import java.util.List;
 
@@ -14,6 +15,10 @@ class Escaper {
     public Escaper(Unit myQueen, UnitManager unitManager) {
         this.myQueen = myQueen;
         this.unitManager = unitManager;
+    }
+
+    public Position getEscapePosition() {
+        return this.getFarthestPosition(MapInfos.CARDINALS);
     }
 
     public Position getFarthestPosition(List<Position> positions) {

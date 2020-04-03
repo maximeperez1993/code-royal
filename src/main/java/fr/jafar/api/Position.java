@@ -3,7 +3,7 @@ package fr.jafar.api;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Position {
+public class Position implements Positionable {
 
     private final int x;
     private final int y;
@@ -30,8 +30,13 @@ public class Position {
     }
 
     @Override
+    public Position getPosition() {
+        return this;
+    }
+
+    @Override
     public String toString() {
-        return "("+x+" " + y + ")";
+        return "(" + x + " " + y + ")";
     }
 
     @Override
@@ -47,4 +52,6 @@ public class Position {
     public int hashCode() {
         return Objects.hash(x, y);
     }
+
+
 }

@@ -10,7 +10,6 @@ import java.util.Scanner;
 public class Engine {
 
 	private final SiteManager siteManager;
-	private int nbTurn = 0;
 
 	public Engine(Scanner in) {
 		this.siteManager = SiteManager.read(in);
@@ -22,11 +21,7 @@ public class Engine {
 		siteManager.update(in);
 		UnitManager unitManager = UnitManager.read(in);
 
-		QueenManager queenManager = new QueenManager(siteManager, unitManager);
-		queenManager.build();
-
-		TrainManager trainManager = new TrainManager(siteManager, unitManager);
-		trainManager.train(gold);
-		this.nbTurn++;
+		new QueenManager(siteManager, unitManager).build();
+		new TrainManager(siteManager, unitManager).train(gold);
 	}
 }
