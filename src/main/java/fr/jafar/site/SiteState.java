@@ -6,16 +6,16 @@ import java.util.Scanner;
 
 class SiteState {
 
-    private final int ignore1;
-    private final int ignore2;
+    private final int gold;
+    private final int maxMineSize;
     private final StructureType structureType;
     private final Team team;
     private final int remainTurn;
     private final int param2;
 
-    private SiteState(int ignore1, int ignore2, StructureType structureType, Team team, int remainTurn, int param2) {
-        this.ignore1 = ignore1;
-        this.ignore2 = ignore2;
+    private SiteState(int gold, int maxMineSize, StructureType structureType, Team team, int remainTurn, int param2) {
+        this.gold = gold;
+        this.maxMineSize = maxMineSize;
         this.structureType = structureType;
         this.team = team;
         this.remainTurn = remainTurn;
@@ -34,12 +34,12 @@ class SiteState {
         return remainTurn;
     }
 
-    public int getIgnore1() {
-        return ignore1;
+    public int getGold() {
+        return gold;
     }
 
-    public int getIgnore2() {
-        return ignore2;
+    public int getMaxMineSize() {
+        return maxMineSize;
     }
 
     public StructureType getStructureType() {

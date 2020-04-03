@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public enum StructureType implements EnumCG {
     NO_STRUCTURE(-1),
+    MINE(0),
     TOWER(1),
     BARRACKS(2);
 
