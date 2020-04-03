@@ -4,7 +4,7 @@ import fr.jafar.api.EnumCG;
 
 import java.util.Scanner;
 
-enum StructureType implements EnumCG {
+public enum StructureType implements EnumCG {
     NO_STRUCTURE(-1),
     TOWER(1),
     BARRACKS(2);

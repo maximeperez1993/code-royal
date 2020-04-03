@@ -34,6 +34,22 @@ class SiteState {
         return remainTurn;
     }
 
+    public int getIgnore1() {
+        return ignore1;
+    }
+
+    public int getIgnore2() {
+        return ignore2;
+    }
+
+    public StructureType getStructureType() {
+        return structureType;
+    }
+
+    public int getParam2() {
+        return param2;
+    }
+
     public static SiteState read(Scanner in) {
         return new SiteState(in.nextInt(), in.nextInt(), StructureType.read(in), Team.read(in), in.nextInt(), in.nextInt());
     }

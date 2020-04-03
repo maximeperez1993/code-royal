@@ -12,6 +12,8 @@ public class SiteManager {
 
 	private List<Site> mySites;
 	private List<Site> myReadySites;
+	private List<Site> myBarracks;
+	private List<Site> myReadyBarracks;
 
 	private List<Site> hisSites;
 	private List<Site> hisReadySites;
@@ -27,7 +29,10 @@ public class SiteManager {
 		this.neutralSites = this.sites.stream().filter(Site::isNeutral).collect(Collectors.toList());
 
 		this.mySites = this.sites.stream().filter(Site::isFriendly).collect(Collectors.toList());
+		this.myBarracks = this.mySites.stream().filter(Site::isBarrack).collect(Collectors.toList());
+
 		this.myReadySites = this.mySites.stream().filter(Site::isReady).collect(Collectors.toList());
+		this.myReadyBarracks = this.myBarracks.stream().filter(Site::isReady).collect(Collectors.toList());
 
 		this.hisSites = this.sites.stream().filter(Site::isNeutral).filter(Site::isEnemy).collect(Collectors.toList());
 		this.hisReadySites = this.hisSites.stream().filter(Site::isReady).collect(Collectors.toList());
@@ -48,6 +53,14 @@ public class SiteManager {
 
 	public List<Site> getMyReadySites() {
 		return myReadySites;
+	}
+
+	public List<Site> getMyBarracks() {
+		return myBarracks;
+	}
+
+	public List<Site> getMyReadyBarracks() {
+		return myReadyBarracks;
 	}
 
 	public List<Site> getHisSites() {
