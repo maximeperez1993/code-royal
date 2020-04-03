@@ -22,10 +22,10 @@ public class BuildLocationManager {
     }
 
     private Site getAggressive() {
-        return new Finder<>(siteManager.getNeutralSites()).sortByFarthestFrom(MapInfos.MIDDLE).get();
+        return new Finder<>(siteManager.getNeutralSites()).sortByClosestFrom(MapInfos.MIDDLE).get();
     }
 
     private Site getPassive() {
-        return new Finder<>(siteManager.getNeutralSites()).sortByFarthestFrom(siteManager.getMyStartSite()).get();
+        return new Finder<>(siteManager.getNeutralSites()).sortByClosestFrom(siteManager.getMyStartSite()).get();
     }
 }

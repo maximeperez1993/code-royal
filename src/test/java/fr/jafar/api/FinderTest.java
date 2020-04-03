@@ -19,7 +19,7 @@ public class FinderTest {
         Position myQueen = new Position(0, 20);
 
         // When
-        Position result = new Finder<>(sites).sortByFarthestFrom(myQueen).get();
+        Position result = new Finder<>(sites).sortByClosestFrom(myQueen).get();
 
         // Then
         assertEquals(site2, result);
@@ -35,7 +35,7 @@ public class FinderTest {
         Position myQueen = new Position(0, 20);
 
         // When
-        Position result = new Finder<>(sites).sortByFarthestFrom(myQueen).get();
+        Position result = new Finder<>(sites).sortByClosestFrom(myQueen).get();
 
         // Then
         assertEquals(site1, result);

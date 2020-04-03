@@ -2,20 +2,16 @@ package fr.jafar.micro;
 
 import fr.jafar.Manager;
 import fr.jafar.api.Position;
-import fr.jafar.unit.Unit;
-import fr.jafar.unit.UnitManager;
 import fr.jafar.util.MapInfos;
 
 import java.util.List;
 
 class Escaper {
 
-    private final UnitManager unitManager;
-    private final Unit myQueen;
+    private final Manager manager;
 
     public Escaper(Manager manager) {
-        this.unitManager = manager.getUnitManager();
-        this.myQueen = this.unitManager.getMyQueen();
+        this.manager = manager;
     }
 
     public Position getEscapePosition() {
@@ -29,7 +25,7 @@ class Escaper {
     }
 
     private double sumDistance(Position position) {
-        return this.unitManager.getHisSoldiers().stream()
+        return this.manager.getUnitManager().getHisSoldiers().stream()
                 .mapToDouble(unit -> position.getDistance(unit.getPosition()))
                 .sum();
     }

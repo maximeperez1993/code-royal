@@ -2,8 +2,6 @@ package fr.jafar.macro;
 
 import fr.jafar.Manager;
 import fr.jafar.site.Site;
-import fr.jafar.site.SiteManager;
-import fr.jafar.unit.UnitManager;
 import fr.jafar.util.PositionableComparator;
 
 import java.util.ArrayList;
@@ -12,12 +10,10 @@ import java.util.stream.Collectors;
 
 public class TrainManager {
 
-    private final SiteManager siteManager;
-    private final UnitManager unitManager;
+    private final Manager manager;
 
     public TrainManager(Manager manager) {
-        this.siteManager = manager.getSiteManager();
-        this.unitManager = manager.getUnitManager();
+        this.manager = manager;
     }
 
     public void train(int gold) {
@@ -25,7 +21,7 @@ public class TrainManager {
     }
 
     private String getTrainString(int gold) {
-        if (siteManager.getMySites().isEmpty()) {
+        if (manager.getSiteManager().getMySites().isEmpty()) {
             return "TRAIN";
         }
         List<Site> sitesToTrain = this.getSitesToTrain(gold);
@@ -41,8 +37,8 @@ public class TrainManager {
     private List<Site> getSitesToTrain(int gold) {
         int cost = 0;
         List<Site> sitesToTrain = new ArrayList<>();
-        List<Site> myReadySites = siteManager.getMyReadySites().stream()
-                .sorted(new PositionableComparator(this.unitManager.getHisQueen()))
+        List<Site> myReadySites = manager.getSiteManager().getMyReadySites().stream()
+                .sorted(new PositionableComparator(this.manager.getUnitManager().getHisQueen()))
                 .collect(Collectors.toList());
 
         for (Site site : myReadySites) {

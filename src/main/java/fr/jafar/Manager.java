@@ -1,5 +1,6 @@
 package fr.jafar;
 
+import fr.jafar.api.Finder;
 import fr.jafar.site.SiteManager;
 import fr.jafar.unit.UnitManager;
 
@@ -18,6 +19,13 @@ public class Manager {
     public void update(Scanner in) {
         this.siteManager.update(in);
         this.unitManager = UnitManager.read(in);
+        if (this.siteManager.getMyStartSite() == null) {
+            this.siteManager.setStartSites(
+                    new Finder<>(this.siteManager.getSites()).sortByClosestFrom(unitManager.getMyQueen()).get(),
+                    new Finder<>(this.siteManager.getSites()).sortByClosestFrom(unitManager.getHisQueen()).get()
+            );
+        }
+
     }
 
     public SiteManager getSiteManager() {

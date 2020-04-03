@@ -1,7 +1,5 @@
 package fr.jafar.api;
 
-import fr.jafar.util.PositionableComparator;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -15,8 +13,13 @@ public class Finder<T extends Positionable> {
     }
 
 
-    public Finder<T> sortByFarthestFrom(Positionable positionable) {
-        this.stream = this.stream.sorted(new PositionableComparator(positionable));
+    public Finder<T> sortByFarthestFrom(Positionable origin) {
+        this.stream = this.stream.sorted((p1, p2) -> (int) (origin.getDistance(p2) - origin.getDistance(p1)));
+        return this;
+    }
+
+    public Finder<T> sortByClosestFrom(Positionable origin) {
+        this.stream = this.stream.sorted((p1, p2) -> (int) (origin.getDistance(p1) - origin.getDistance(p2)));
         return this;
     }
 

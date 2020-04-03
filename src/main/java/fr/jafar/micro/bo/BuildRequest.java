@@ -55,4 +55,13 @@ public class BuildRequest {
     public Option getOption() {
         return option;
     }
+
+    @Override
+    public String toString() {
+        return "BuildRequest{" +
+                "structureType=" + structureType +
+                ", unitType=" + unitType +
+                ", option=" + option +
+                '}';
+    }
 }
