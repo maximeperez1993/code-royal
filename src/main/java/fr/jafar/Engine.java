@@ -1,9 +1,11 @@
 package fr.jafar;
 
-import java.util.Scanner;
-
+import fr.jafar.macro.TrainManager;
+import fr.jafar.micro.QueenManager;
 import fr.jafar.site.SiteManager;
 import fr.jafar.unit.UnitManager;
+
+import java.util.Scanner;
 
 public class Engine {
 

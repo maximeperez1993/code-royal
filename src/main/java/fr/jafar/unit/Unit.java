@@ -1,11 +1,11 @@
 package fr.jafar.unit;
 
-import java.util.Scanner;
-
-import fr.jafar.Team;
+import fr.jafar.api.Position;
+import fr.jafar.api.Positionable;
+import fr.jafar.api.Team;
 import fr.jafar.site.Site;
-import fr.jafar.util.Position;
-import fr.jafar.util.Positionable;
+
+import java.util.Scanner;
 
 public class Unit implements Positionable {
 

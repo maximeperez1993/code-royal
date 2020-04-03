@@ -1,6 +1,6 @@
-package fr.jafar;
+package fr.jafar.util;
 
-import fr.jafar.util.Position;
+import fr.jafar.api.Position;
 
 import java.util.Arrays;
 import java.util.List;

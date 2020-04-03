@@ -1,8 +1,8 @@
 package fr.jafar.site;
 
-import java.util.Scanner;
+import fr.jafar.api.Team;
 
-import fr.jafar.Team;
+import java.util.Scanner;
 
 class SiteState {
 

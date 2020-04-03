@@ -1,19 +1,16 @@
-package fr.jafar.unit;
-
-import fr.jafar.api.EnumCG;
+package fr.jafar.api;
 
 import java.util.Scanner;
 
-public enum UnitType implements EnumCG {
+public enum Team implements EnumCG {
 
-    QUEEN(-1),
-    KNIGHT(0),
-    ARCHER(1),
-    GIANT(2);
+    NEUTRAL(-1),
+    FRIENDLY(0),
+    ENEMY(1);
 
     private final int code;
 
-    UnitType(int code) {
+    Team(int code) {
         this.code = code;
     }
 
@@ -22,7 +19,7 @@ public enum UnitType implements EnumCG {
         return this.code;
     }
 
-    public static UnitType read(Scanner in) {
+    public static Team read(Scanner in) {
         return EnumCG.find(in.nextInt(), values());
     }
 }

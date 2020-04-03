@@ -1,5 +1,7 @@
 package fr.jafar.util;
 
+import fr.jafar.api.Position;
+
 import java.util.Comparator;
 
 public class PositionComparator implements Comparator<Position> {

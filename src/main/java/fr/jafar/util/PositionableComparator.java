@@ -1,5 +1,8 @@
 package fr.jafar.util;
 
+import fr.jafar.api.Position;
+import fr.jafar.api.Positionable;
+
 import java.util.Comparator;
 
 public class PositionableComparator implements Comparator<Positionable> {

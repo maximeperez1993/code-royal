@@ -1,4 +1,4 @@
-package fr.jafar.util;
+package fr.jafar.api;
 
 import java.util.Objects;
 import java.util.Scanner;

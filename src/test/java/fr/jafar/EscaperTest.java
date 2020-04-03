@@ -1,8 +1,10 @@
 package fr.jafar;
 
+import fr.jafar.api.Position;
+import fr.jafar.micro.Escaper;
 import fr.jafar.unit.Unit;
 import fr.jafar.unit.UnitManager;
-import fr.jafar.util.Position;
+import fr.jafar.util.MapInfos;
 import org.junit.Test;
 
 import java.util.Arrays;

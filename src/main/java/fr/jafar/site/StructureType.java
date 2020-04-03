@@ -1,8 +1,10 @@
 package fr.jafar.site;
 
+import fr.jafar.api.EnumCG;
+
 import java.util.Scanner;
 
-enum StructureType {
+enum StructureType implements EnumCG {
     NO_STRUCTURE(-1),
     TOWER(1),
     BARRACKS(2);
@@ -13,13 +15,14 @@ enum StructureType {
         this.code = code;
     }
 
-    public static StructureType read(Scanner scanner) {
-        int code = scanner.nextInt();
-        for (StructureType structureType : StructureType.values()) {
-            if (structureType.code == code) {
-                return structureType;
-            }
-        }
-        throw new IllegalArgumentException("No StructureType found with code " + code);
+    @Override
+    public int getCode() {
+        return this.code;
     }
+
+    public static StructureType read(Scanner in) {
+        return EnumCG.find(in.nextInt(), values());
+    }
+
+
 }

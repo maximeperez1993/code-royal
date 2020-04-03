@@ -1,11 +1,12 @@
-package fr.jafar;
+package fr.jafar.micro;
 
+import fr.jafar.api.Position;
+import fr.jafar.api.Positionable;
 import fr.jafar.site.Site;
 import fr.jafar.site.SiteManager;
 import fr.jafar.unit.Unit;
 import fr.jafar.unit.UnitManager;
-import fr.jafar.util.Position;
-import fr.jafar.util.Positionable;
+import fr.jafar.util.MapInfos;
 import fr.jafar.util.PositionableComparator;
 
 public class QueenManager {

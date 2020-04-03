@@ -1,10 +1,10 @@
 package fr.jafar.site;
 
-import java.util.Scanner;
+import fr.jafar.api.Position;
+import fr.jafar.api.Positionable;
+import fr.jafar.api.Team;
 
-import fr.jafar.Team;
-import fr.jafar.util.Position;
-import fr.jafar.util.Positionable;
+import java.util.Scanner;
 
 public class Site implements Positionable {
 
