@@ -47,6 +47,22 @@ public class Site implements Positionable {
         return this.state.getStructureType() == StructureType.MINE;
     }
 
+    public boolean hasNoRemainingGold() {
+        return this.state.getGold() == 0;
+    }
+
+    public boolean isTower() {
+        return this.state.getStructureType() == StructureType.TOWER;
+    }
+
+    public boolean isMineUpgradable() {
+        return isMine() && state.getRemainTurn() < state.getMaxMineSize();
+    }
+
+    public boolean isTowerUpgradable() {
+        return isTower() && state.getRemainTurn() < 10;
+    }
+
     public int getId() {
         return this.id;
     }
@@ -56,12 +72,17 @@ public class Site implements Positionable {
         return this.position;
     }
 
+    public SiteState getState() {
+        return state;
+    }
+
     public void update(Scanner in) {
         if (in.nextInt() != id) {
             throw new IllegalStateException("id of site not ordered !!");
         }
         this.state = SiteState.read(in);
     }
+
 
     public static Site read(Scanner in) {
         return new Site(in.nextInt(), Position.read(in), in.nextInt());

@@ -21,25 +21,55 @@ public class BuildManager {
     public Optional<String> build() {
         Optional<String> rebuild = this.rebuild();
         if (rebuild.isPresent()) {
-            return this.rebuild();
+            return rebuild;
         }
-        return buildNext();
+
+        Optional<String> buildNext = this.buildNext();
+        if (buildNext.isPresent()) {
+            return buildNext;
+        }
+
+        return this.upgradeNext();
     }
 
     private Optional<String> rebuild() {
         for (int i = 0; i < sitesOfBo.size(); i++) {
-            if (!sitesOfBo.get(i).isFriendly()) {
-                return Optional.of(rebuild(BuildOrder.BUILD_ORDER.get(i)));
+            Site site = sitesOfBo.get(i);
+            BuildRequest buildRequest = BuildOrder.BUILD_ORDER.get(i);
+            if (!site.isFriendly() && !isTryingToMineAnEmptySpot(site, buildRequest)) {
+                System.err.println("Rebuild:" + buildRequest);
+                return Optional.of(build(buildRequest, site));
             }
         }
         return Optional.empty();
     }
 
+    private boolean isTryingToMineAnEmptySpot(Site site, BuildRequest buildRequest) {
+        return buildRequest.getStructureType() == StructureType.MINE && site.hasNoRemainingGold();
+    }
+
     private Optional<String> buildNext() {
         if (sitesOfBo.size() < BuildOrder.BUILD_ORDER.size()) {
             BuildRequest buildRequest = BuildOrder.BUILD_ORDER.get(sitesOfBo.size());
-            System.err.println(buildRequest);
+            System.err.println("Build next:" + buildRequest);
             return Optional.of(build(buildRequest));
+        }
+        return Optional.empty();
+    }
+
+    private Optional<String> upgradeNext() {
+        for (int i = 0; i < sitesOfBo.size(); i++) {
+            Site site = sitesOfBo.get(i);
+            BuildRequest buildRequest = BuildOrder.BUILD_ORDER.get(i);
+            if (site.isMineUpgradable()) {
+                System.err.println("Upgrade:" + buildRequest);
+                return Optional.of(build(buildRequest, site));
+            }
+
+            if (site.isTowerUpgradable()) {
+                System.err.println("Upgrade:" + buildRequest);
+                return Optional.of(build(buildRequest, site));
+            }
         }
         return Optional.empty();
     }
@@ -48,15 +78,9 @@ public class BuildManager {
         request.check();
         Site site = this.buildLocationManager.get(request.getOption());
         this.sitesOfBo.add(site);
-        System.err.println(sitesOfBo);
         return build(request, site);
     }
 
-    private String rebuild(BuildRequest request) {
-        request.check();
-        Site site = this.buildLocationManager.get(request.getOption());
-        return build(request, site);
-    }
 
     private String build(BuildRequest request, Site site) {
         if (request.getStructureType() == StructureType.BARRACKS) {

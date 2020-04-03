@@ -4,7 +4,7 @@ import fr.jafar.api.Team;
 
 import java.util.Scanner;
 
-class SiteState {
+public class SiteState {
 
     private final int gold;
     private final int maxMineSize;

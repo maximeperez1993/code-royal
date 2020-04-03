@@ -15,7 +15,9 @@ public class BuildOrder {
             new BuildRequest().a(BARRACKS).of(UnitType.KNIGHT).in(PASSIVE),
             new BuildRequest().a(MINE).in(PASSIVE),
             new BuildRequest().a(BARRACKS).of(UnitType.KNIGHT).in(AGGRESSIVE),
+            new BuildRequest().a(TOWER).in(PASSIVE),
             new BuildRequest().a(MINE).in(PASSIVE),
+            new BuildRequest().a(TOWER).in(PASSIVE),
             new BuildRequest().a(TOWER).in(PASSIVE),
             new BuildRequest().a(TOWER).in(PASSIVE),
             new BuildRequest().a(TOWER).in(PASSIVE)
