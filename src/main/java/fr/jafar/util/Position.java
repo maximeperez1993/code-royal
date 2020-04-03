@@ -12,6 +12,10 @@ public class Position {
         this.y = y;
     }
 
+    public double getDistance(Position p) {
+        return Math.sqrt((x - p.x) * (x - p.x) + (y - p.y) * (y - p.y));
+    }
+
     public int getX() {
         return x;
     }
@@ -20,7 +24,7 @@ public class Position {
         return y;
     }
 
-    public static Position read(Scanner scanner){
+    public static Position read(Scanner scanner) {
         return new Position(scanner.nextInt(), scanner.nextInt());
     }
 }

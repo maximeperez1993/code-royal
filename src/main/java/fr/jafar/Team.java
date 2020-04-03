@@ -1,8 +1,8 @@
-package fr.jafar.site;
+package fr.jafar;
 
 import java.util.Scanner;
 
-enum Team {
+public enum Team {
 
     NEUTRAL(-1),
     FRIENDLY(0),

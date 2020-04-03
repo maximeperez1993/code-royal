@@ -1,24 +1,44 @@
 package fr.jafar.unit;
 
-import fr.jafar.util.Position;
-
 import java.util.Scanner;
 
-public class Unit {
+import fr.jafar.Team;
+import fr.jafar.site.Site;
+import fr.jafar.util.Position;
+import fr.jafar.util.Positionable;
+
+public class Unit implements Positionable {
 
     private final Position position;
-    private final int owner ;
-    private final UnitType unitType; // -1 = QUEEN, 0 = KNIGHT, 1 = ARCHER
+    private final Team team;
+    private final UnitType unitType;
     private final int health;
 
-    private Unit(Position position, int owner, UnitType unitType, int health) {
+    private Unit(Position position, Team team, UnitType unitType, int health) {
         this.position = position;
-        this.owner = owner;
+        this.team = team;
         this.unitType = unitType;
         this.health = health;
     }
 
-    public static Unit read(Scanner in){
-        return new Unit(Position.read(in), in.nextInt(), UnitType.read(in), in.nextInt());
+    @Override
+    public Position getPosition() {
+        return position;
+    }
+
+    public void build(Site site) {
+        System.out.println(String.format("BUILD %d BARRACKS-KNIGHT", site.getId()));
+    }
+
+    public boolean isMyQueen() {
+        return unitType == UnitType.QUEEN && team == Team.FRIENDLY;
+    }
+
+    public boolean isHisQueen() {
+        return unitType == UnitType.QUEEN && team == Team.ENEMY;
+    }
+
+    public static Unit read(Scanner in) {
+        return new Unit(Position.read(in), Team.read(in), UnitType.read(in), in.nextInt());
     }
 }
