@@ -1,5 +1,6 @@
 package fr.jafar.micro;
 
+import fr.jafar.Manager;
 import fr.jafar.api.Position;
 import fr.jafar.unit.Unit;
 import fr.jafar.unit.UnitManager;
@@ -9,12 +10,12 @@ import java.util.List;
 
 class Escaper {
 
-    private final Unit myQueen;
     private final UnitManager unitManager;
+    private final Unit myQueen;
 
-    public Escaper(Unit myQueen, UnitManager unitManager) {
-        this.myQueen = myQueen;
-        this.unitManager = unitManager;
+    public Escaper(Manager manager) {
+        this.unitManager = manager.getUnitManager();
+        this.myQueen = this.unitManager.getMyQueen();
     }
 
     public Position getEscapePosition() {

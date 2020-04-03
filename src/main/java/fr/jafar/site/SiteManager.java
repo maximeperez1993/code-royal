@@ -10,6 +10,9 @@ public class SiteManager {
 	private final List<Site> sites;
 	private List<Site> neutralSites;
 
+	private Site myStartSite;
+	private Site hisStartSite;
+
 	private List<Site> mySites;
 	private List<Site> myReadySites;
 	private List<Site> myBarracks;
@@ -23,6 +26,11 @@ public class SiteManager {
 	public SiteManager(List<Site> sites) {
 		this.sites = sites;
 		this.neutralSites = new ArrayList<>(sites);
+	}
+
+	public void setStartSites(Site myStartSite, Site hisStartSite) {
+		this.myStartSite = myStartSite;
+		this.hisStartSite = hisStartSite;
 	}
 
 	public void update(Scanner in) {
@@ -47,6 +55,14 @@ public class SiteManager {
 
 	public List<Site> getNeutralSites() {
 		return neutralSites;
+	}
+
+	public Site getMyStartSite() {
+		return myStartSite;
+	}
+
+	public Site getHisStartSite() {
+		return hisStartSite;
 	}
 
 	public List<Site> getMySites() {

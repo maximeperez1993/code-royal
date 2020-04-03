@@ -1,5 +1,6 @@
 package fr.jafar.micro;
 
+import fr.jafar.Manager;
 import fr.jafar.api.Position;
 import fr.jafar.unit.Unit;
 import fr.jafar.unit.UnitManager;
@@ -27,12 +28,14 @@ public class EscaperTest {
     @Test
     public void shouldGetFarthestPositionWithOneUnitAndLinearPath() {
         // Given
-        List<Unit> hisSoldiers = Arrays.asList(mockUnit(new Position(0,1)));
+        List<Unit> hisSoldiers = Arrays.asList(mockUnit(new Position(0, 1)));
 
-        Unit myQueen = mock(Unit.class);
+
         UnitManager unitManager = mock(UnitManager.class);
         when(unitManager.getHisSoldiers()).thenReturn(hisSoldiers);
-        Escaper escaper = new Escaper(myQueen, unitManager);
+        Manager manager = mock(Manager.class);
+        when(manager.getUnitManager()).thenReturn(unitManager);
+        Escaper escaper = new Escaper(manager);
 
         // When
         Position result = escaper.getFarthestPosition(positions);
@@ -46,10 +49,11 @@ public class EscaperTest {
         // Given
         List<Unit> hisSoldiers = Arrays.asList(mockUnit(MapInfos.RIGHT));
 
-        Unit myQueen = mock(Unit.class);
         UnitManager unitManager = mock(UnitManager.class);
         when(unitManager.getHisSoldiers()).thenReturn(hisSoldiers);
-        Escaper escaper = new Escaper(myQueen, unitManager);
+        Manager manager = mock(Manager.class);
+        when(manager.getUnitManager()).thenReturn(unitManager);
+        Escaper escaper = new Escaper(manager);
 
         // When
         Position result = escaper.getFarthestPosition(MapInfos.CARDINALS);
@@ -66,10 +70,11 @@ public class EscaperTest {
                 mockUnit(MapInfos.BOTTOM)
         );
 
-        Unit myQueen = mock(Unit.class);
         UnitManager unitManager = mock(UnitManager.class);
         when(unitManager.getHisSoldiers()).thenReturn(hisSoldiers);
-        Escaper escaper = new Escaper(myQueen, unitManager);
+        Manager manager = mock(Manager.class);
+        when(manager.getUnitManager()).thenReturn(unitManager);
+        Escaper escaper = new Escaper(manager);
 
         // When
         Position result = escaper.getFarthestPosition(MapInfos.CARDINALS);
