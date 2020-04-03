@@ -6,7 +6,7 @@ import fr.jafar.unit.UnitManager;
 
 import java.util.List;
 
-public class Escaper {
+class Escaper {
 
     private final Unit myQueen;
     private final UnitManager unitManager;

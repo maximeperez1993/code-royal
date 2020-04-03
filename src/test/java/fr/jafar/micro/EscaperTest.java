@@ -1,7 +1,6 @@
-package fr.jafar;
+package fr.jafar.micro;
 
 import fr.jafar.api.Position;
-import fr.jafar.micro.Escaper;
 import fr.jafar.unit.Unit;
 import fr.jafar.unit.UnitManager;
 import fr.jafar.util.MapInfos;
