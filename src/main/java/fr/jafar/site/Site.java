@@ -47,12 +47,17 @@ public class Site implements Positionable {
         return this.state.getStructureType() == StructureType.MINE;
     }
 
+
     public boolean hasNoRemainingGold() {
         return this.state.getGold() == 0;
     }
 
     public boolean isTower() {
         return this.state.getStructureType() == StructureType.TOWER;
+    }
+
+    public boolean isEnemyTower() {
+        return isTower() && isEnemy();
     }
 
     public boolean isMineUpgradable() {

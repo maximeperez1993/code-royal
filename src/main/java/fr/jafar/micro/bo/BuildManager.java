@@ -36,7 +36,7 @@ public class BuildManager {
         for (int i = 0; i < sitesOfBo.size(); i++) {
             Site site = sitesOfBo.get(i);
             BuildRequest buildRequest = BuildOrder.BUILD_ORDER.get(i);
-            if (!site.isFriendly() && !isTryingToMineAnEmptySpot(site, buildRequest)) {
+            if (!site.isFriendly() && !isTryingToMineAnEmptySpot(site, buildRequest) && !site.isEnemyTower()) {
                 System.err.println("Rebuild:" + buildRequest);
                 return Optional.of(build(buildRequest, site));
             }
