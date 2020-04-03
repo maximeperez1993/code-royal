@@ -30,28 +30,41 @@ public class QueenManager {
 
     public void build() {
         if (this.siteManager.getMyBarracks().isEmpty()) {
-            System.err.println("Try to build closest my queen");
+            System.err.println("Try to build BARRACKS closest my queen");
             this.builder.a(StructureType.BARRACKS)
                     .of(UnitType.KNIGHT)
                     .at(new Finder<>(siteManager.getNeutralSites()).sortByFarthestFrom(this.myQueen).get())
                     .build();
-        } else if (this.siteManager.getMyBarracks().size() == 1) {
+            return;
+        }
+
+        if (this.siteManager.getMyMines().isEmpty()) {
+            System.err.println("Try to build MINE closest my first BARRACKS");
+            this.builder.a(StructureType.MINE)
+                    .at(this.siteManager.getMyBarracks().get(0))
+                    .build();
+            return;
+        }
+
+        if (this.siteManager.getMyBarracks().size() == 1) {
             System.err.println("Try to build next middle");
             this.builder.a(StructureType.BARRACKS)
                     .of(UnitType.KNIGHT)
                     .at(new Finder<>(siteManager.getNeutralSites()).sortByFarthestFrom(MapInfos.MIDDLE).get())
                     .build();
-        } else {
-            if (!this.siteManager.getNeutralSites().isEmpty()) {
-                System.err.println("Try to build tower");
-                this.builder.a(StructureType.TOWER)
-                        .at(new Finder<>(siteManager.getNeutralSites()).sortByFarthestFrom(myQueen).get())
-                        .build();
-            } else {
-                System.err.println("Try to escape");
-                this.move(this.escaper.getEscapePosition());
-            }
+            return;
         }
+
+        if (!this.siteManager.getNeutralSites().isEmpty()) {
+            System.err.println("Try to build tower");
+            this.builder.a(StructureType.TOWER)
+                    .at(new Finder<>(siteManager.getNeutralSites()).sortByFarthestFrom(myQueen).get())
+                    .build();
+            return;
+        }
+
+        System.err.println("Try to escape");
+        this.move(this.escaper.getEscapePosition());
     }
 
     private void build(StructureType structureType, Site site) {

@@ -32,25 +32,29 @@ public class Site implements Positionable {
     }
 
     public boolean isReady() {
-        return this.state.isReady();
-    }
+		return this.state.isReady();
+	}
 
-    public boolean isTraining() {
-        return this.state.getRemainTurn() > 0;
-    }
+	public boolean isTraining() {
+		return this.state.getRemainTurn() > 0;
+	}
 
-    public boolean isBarrack() {
-        return this.state.getStructureType() == StructureType.BARRACKS;
-    }
+	public boolean isBarrack() {
+		return this.state.getStructureType() == StructureType.BARRACKS;
+	}
 
-    public int getId() {
-        return this.id;
-    }
+	public boolean isMine() {
+		return this.state.getStructureType() == StructureType.MINE;
+	}
 
-    @Override
-    public Position getPosition() {
-        return this.position;
-    }
+	public int getId() {
+		return this.id;
+	}
+
+	@Override
+	public Position getPosition() {
+		return this.position;
+	}
 
 	public void update(Scanner in) {
 		if (in.nextInt() != id) {

@@ -14,6 +14,7 @@ public class SiteManager {
 	private List<Site> myReadySites;
 	private List<Site> myBarracks;
 	private List<Site> myReadyBarracks;
+	private List<Site> myMines;
 
 	private List<Site> hisSites;
 	private List<Site> hisReadySites;
@@ -33,6 +34,7 @@ public class SiteManager {
 
 		this.myReadySites = this.mySites.stream().filter(Site::isReady).collect(Collectors.toList());
 		this.myReadyBarracks = this.myBarracks.stream().filter(Site::isReady).collect(Collectors.toList());
+		this.myMines = this.mySites.stream().filter(Site::isMine).collect(Collectors.toList());
 
 		this.hisSites = this.sites.stream().filter(Site::isNeutral).filter(Site::isEnemy).collect(Collectors.toList());
 		this.hisReadySites = this.hisSites.stream().filter(Site::isReady).collect(Collectors.toList());
@@ -61,6 +63,10 @@ public class SiteManager {
 
 	public List<Site> getMyReadyBarracks() {
 		return myReadyBarracks;
+	}
+
+	public List<Site> getMyMines() {
+		return myMines;
 	}
 
 	public List<Site> getHisSites() {
