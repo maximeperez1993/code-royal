@@ -6,7 +6,8 @@ public enum UnitType {
 
     QUEEN(-1),
     KNIGHT(0),
-    ARCHER(1);
+    ARCHER(1),
+    GIANT(2);
 
     private final int code;
 

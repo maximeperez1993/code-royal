@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 enum StructureType {
     NO_STRUCTURE(-1),
+    TOWER(1),
     BARRACKS(2);
 
     private final int code;
