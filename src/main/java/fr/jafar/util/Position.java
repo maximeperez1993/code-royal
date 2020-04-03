@@ -1,5 +1,6 @@
 package fr.jafar.util;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Position {
@@ -26,5 +27,24 @@ public class Position {
 
     public static Position read(Scanner scanner) {
         return new Position(scanner.nextInt(), scanner.nextInt());
+    }
+
+    @Override
+    public String toString() {
+        return "("+x+" " + y + ")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return x == position.x &&
+                y == position.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import fr.jafar.site.Site;
 import fr.jafar.site.SiteManager;
 import fr.jafar.unit.UnitManager;
-import fr.jafar.util.PositionnableComparator;
+import fr.jafar.util.PositionableComparator;
 
 public class TrainManager {
 
@@ -41,7 +41,7 @@ public class TrainManager {
 		int cost = 0;
 		List<Site> sitesToTrain = new ArrayList<>();
 		List<Site> myReadySites = siteManager.getMyReadySites().stream()
-			.sorted(new PositionnableComparator(this.unitManager.getHisQueen()))
+			.sorted(new PositionableComparator(this.unitManager.getHisQueen()))
 			.collect(Collectors.toList());
 
 		for (Site site : myReadySites) {

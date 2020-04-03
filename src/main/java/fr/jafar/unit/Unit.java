@@ -14,7 +14,7 @@ public class Unit implements Positionable {
     private final UnitType unitType;
     private final int health;
 
-    private Unit(Position position, Team team, UnitType unitType, int health) {
+    public Unit(Position position, Team team, UnitType unitType, int health) {
         this.position = position;
         this.team = team;
         this.unitType = unitType;
@@ -36,6 +36,14 @@ public class Unit implements Positionable {
 
     public boolean isHisQueen() {
         return unitType == UnitType.QUEEN && team == Team.ENEMY;
+    }
+
+    public boolean isMySoldier(){
+        return unitType != UnitType.QUEEN && team == Team.FRIENDLY;
+    }
+
+    public boolean isHisSoldier(){
+        return unitType != UnitType.QUEEN && team == Team.ENEMY;
     }
 
     public static Unit read(Scanner in) {

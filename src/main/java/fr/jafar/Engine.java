@@ -20,8 +20,8 @@ public class Engine {
 		siteManager.update(in);
 		UnitManager unitManager = UnitManager.read(in);
 
-		BuildManager buildManager = new BuildManager(siteManager, unitManager);
-		buildManager.build();
+		QueenManager queenManager = new QueenManager(siteManager, unitManager);
+		queenManager.build();
 
 		TrainManager trainManager = new TrainManager(siteManager, unitManager);
 		trainManager.train(gold);
