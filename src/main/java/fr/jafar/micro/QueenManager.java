@@ -3,8 +3,6 @@ package fr.jafar.micro;
 import fr.jafar.Manager;
 import fr.jafar.api.Finder;
 import fr.jafar.api.Position;
-import fr.jafar.api.Positionable;
-import fr.jafar.site.Site;
 import fr.jafar.site.SiteManager;
 import fr.jafar.site.StructureType;
 import fr.jafar.unit.Unit;
@@ -41,7 +39,7 @@ public class QueenManager {
         if (this.siteManager.getMyMines().isEmpty()) {
             System.err.println("Try to build MINE closest my first BARRACKS");
             this.builder.a(StructureType.MINE)
-                    .at(this.siteManager.getMyBarracks().get(0))
+                    .at(new Finder<>(siteManager.getNeutralSites()).sortByFarthestFrom(this.siteManager.getMyBarracks().get(0)).get())
                     .build();
             return;
         }
@@ -65,14 +63,6 @@ public class QueenManager {
 
         System.err.println("Try to escape");
         this.move(this.escaper.getEscapePosition());
-    }
-
-    private void build(StructureType structureType, Site site) {
-        System.out.println(String.format("BUILD %d %s-KNIGHT", site.getId(), structureType.name()));
-    }
-
-    private void move(Positionable positionable) {
-        this.move(positionable.getPosition());
     }
 
     private void move(Position position) {
