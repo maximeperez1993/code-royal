@@ -49,7 +49,7 @@ public class Site implements Positionable {
 
 
     public boolean hasNoRemainingGold() {
-        return this.state.getGold() == 0;
+        return this.state.getGold() <= 0;
     }
 
     public boolean isTower() {
