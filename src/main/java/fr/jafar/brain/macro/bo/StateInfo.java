@@ -1,4 +1,4 @@
-package fr.jafar.brain.macro.bo2;
+package fr.jafar.brain.macro.bo;
 
 import fr.jafar.Manager;
 import fr.jafar.structure.site.Site;
@@ -40,4 +40,7 @@ public class StateInfo {
         return closestFreeSite;
     }
 
+    public boolean isUnderAttack() {
+        return this.manager.getUnitManager().getHisSoldiers().stream().anyMatch(soldier -> soldier.getDistance(myQueen) < 500);
+    }
 }

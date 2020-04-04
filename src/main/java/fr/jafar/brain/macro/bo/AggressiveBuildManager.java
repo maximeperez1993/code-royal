@@ -1,4 +1,4 @@
-package fr.jafar.brain.macro.bo2;
+package fr.jafar.brain.macro.bo;
 
 import fr.jafar.Manager;
 import fr.jafar.brain.macro.BuildRequest;
@@ -6,14 +6,15 @@ import fr.jafar.structure.site.Site;
 import fr.jafar.structure.site.StructureType;
 import fr.jafar.structure.unit.UnitType;
 
-public class BuildManager {
+public class AggressiveBuildManager implements BuildManager {
 
     private final Manager manager;
 
-    public BuildManager(Manager manager) {
+    public AggressiveBuildManager(Manager manager) {
         this.manager = manager;
     }
 
+    @Override
     public BuildRequest build(Site site) {
         if (site.hasRemainingGold() && site.getMaxMineSize() >= 2) {
             return new BuildRequest().a(StructureType.MINE);
