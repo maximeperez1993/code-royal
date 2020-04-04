@@ -3,10 +3,19 @@ package fr.jafar.brain.micro;
 import fr.jafar.Manager;
 import fr.jafar.structure.Position;
 import fr.jafar.structure.unit.Unit;
+import fr.jafar.util.MapInfos;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ TODO :
+  - take care about collisions with sites
+  - take care about mine destruction
+  - take care about enemy towers
+  - take care about collisions with soldiers
+  - best of the best : simulation
+ */
 public class Escaper {
 
     private final Manager manager;
@@ -38,7 +47,10 @@ public class Escaper {
         for (int i = 0; i < 360; i += 10) {
             int x = (int) (60 * Math.cos(i));
             int y = (int) (60 * Math.sin(i));
-            positions.add(myQueenPosition.add(new Position(x, y)));
+            Position position = myQueenPosition.add(new Position(x, y));
+            if (MapInfos.isOnMap(position)) {
+                positions.add(position);
+            }
         }
         return positions;
     }

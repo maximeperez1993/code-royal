@@ -18,11 +18,21 @@ public final class MapInfos {
     public static final Position LEFT = new Position(0, HEIGHT / 2);
     public static final Position TOP_LEFT = new Position(0, 0);
 
-    public static final Position MIDDLE = new Position(WIDTH/2, HEIGHT/2);
+    public static final Position MIDDLE = new Position(WIDTH / 2, HEIGHT / 2);
 
     public static final List<Position> CARDINALS = Arrays.asList(TOP, TOP_RIGHT, RIGHT, BOTTOM_RIGHT, BOTTOM, BOTTOM_LEFT, LEFT, TOP_LEFT);
 
     private MapInfos() {
         throw new IllegalStateException("Can't instantiate MapInfos utils class");
+    }
+
+    public static boolean isOnMap(Position position) {
+        if (position.getX() < 0 || position.getX() > WIDTH) {
+            return false;
+        }
+        if (position.getY() < 0 || position.getY() > HEIGHT) {
+            return false;
+        }
+        return true;
     }
 }
