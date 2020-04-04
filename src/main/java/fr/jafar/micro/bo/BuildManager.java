@@ -42,7 +42,13 @@ public class BuildManager {
         for (int i = 0; i < sitesOfBo.size(); i++) {
             Site site = sitesOfBo.get(i);
             BuildRequest buildRequest = BuildOrder.BUILD_ORDER.get(i);
-            if (!site.isFriendly() && !isTryingToMineAnEmptySpot(site, buildRequest) && !site.isEnemyTower()) {
+            if (!site.isFriendly() && !site.isEnemyTower()) {
+                if (isTryingToMineAnEmptySpot(site, buildRequest)) {
+                    buildRequest.a(StructureType.TOWER);
+                    System.err.println("Replace by a tower:" + buildRequest + " " + site);
+                    return Optional.of(build(buildRequest, site));
+                }
+
                 System.err.println("Rebuild:" + buildRequest + " " + site);
                 return Optional.of(build(buildRequest, site));
             }

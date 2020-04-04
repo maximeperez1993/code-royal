@@ -35,7 +35,7 @@ public class BuildLocationManager {
     }
 
     private Site getPassive() {
-        return new Finder<>(siteManager.getNeutralSites()).sortByClosestFrom(siteManager.getMyStartSite()).get();
+        return new Finder<>(siteManager.getNeutralSites()).sortByFarthestFrom(siteManager.getHisStartSite()).get();
     }
 
 }

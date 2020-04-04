@@ -65,7 +65,7 @@ public class Site implements Positionable {
     }
 
     public boolean isTowerUpgradable() {
-        return isTower() && state.getRemainTurn() < 10;
+        return isTower() && state.getRemainTurn() <= 500;
     }
 
     public int getId() {
