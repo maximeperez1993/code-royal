@@ -19,6 +19,11 @@ public class BuildManager {
     }
 
     public Optional<String> build() {
+        Optional<String> upgradeNext = this.upgradeNext();
+        if (upgradeNext.isPresent()) {
+            return upgradeNext;
+        }
+
         Optional<String> rebuild = this.rebuild();
         if (rebuild.isPresent()) {
             return rebuild;
@@ -29,7 +34,8 @@ public class BuildManager {
             return buildNext;
         }
 
-        return this.upgradeNext();
+
+        return Optional.empty();
     }
 
     private Optional<String> rebuild() {
@@ -37,7 +43,7 @@ public class BuildManager {
             Site site = sitesOfBo.get(i);
             BuildRequest buildRequest = BuildOrder.BUILD_ORDER.get(i);
             if (!site.isFriendly() && !isTryingToMineAnEmptySpot(site, buildRequest) && !site.isEnemyTower()) {
-                System.err.println("Rebuild:" + buildRequest);
+                System.err.println("Rebuild:" + buildRequest + " " + site);
                 return Optional.of(build(buildRequest, site));
             }
         }
@@ -62,7 +68,7 @@ public class BuildManager {
             Site site = sitesOfBo.get(i);
             BuildRequest buildRequest = BuildOrder.BUILD_ORDER.get(i);
             if (site.isMineUpgradable()) {
-                System.err.println("Upgrade:" + buildRequest);
+                System.err.println("Upgrade:" + buildRequest + " " + site);
                 return Optional.of(build(buildRequest, site));
             }
 

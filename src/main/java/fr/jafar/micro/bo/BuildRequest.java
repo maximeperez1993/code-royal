@@ -5,7 +5,7 @@ import fr.jafar.unit.UnitType;
 
 public class BuildRequest {
 
-    enum Option {AGGRESSIVE, PASSIVE;}
+    enum Option {FRONTIER, SAFE_BASE, CLOSEST;}
 
     private StructureType structureType;
     private UnitType unitType;

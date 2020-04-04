@@ -58,4 +58,15 @@ public class SiteState {
         return new SiteState(0, 0, StructureType.NO_STRUCTURE, Team.NEUTRAL, 0, 0);
     }
 
+    @Override
+    public String toString() {
+        return "SiteState{" +
+                "gold=" + gold +
+                ", maxMineSize=" + maxMineSize +
+                ", structureType=" + structureType +
+                ", team=" + team +
+                ", remainTurn=" + remainTurn +
+                ", param2=" + param2 +
+                '}';
+    }
 }
