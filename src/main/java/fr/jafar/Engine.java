@@ -19,7 +19,6 @@ public class Engine {
 
     public void update(Scanner in) {
         int gold = in.nextInt();
-        int touchedSite = in.nextInt(); // -1 if none
         this.manager.update(in);
         this.queenManager.build();
         this.trainManager.train(gold);

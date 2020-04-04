@@ -1,12 +1,13 @@
 package fr.jafar.brain.macro.bo;
 
+import fr.jafar.brain.macro.BuildRequest;
 import fr.jafar.structure.unit.UnitType;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static fr.jafar.brain.macro.bo.BuildRequest.Option.CLOSEST;
-import static fr.jafar.brain.macro.bo.BuildRequest.Option.SAFE_BASE;
+import static fr.jafar.brain.macro.BuildRequest.Option.CLOSEST;
+import static fr.jafar.brain.macro.BuildRequest.Option.SAFE_BASE;
 import static fr.jafar.structure.site.StructureType.*;
 
 public class BuildOrder {

@@ -1,11 +1,11 @@
-package fr.jafar.brain.macro.bo;
+package fr.jafar.brain.macro;
 
 import fr.jafar.structure.site.StructureType;
 import fr.jafar.structure.unit.UnitType;
 
 public class BuildRequest {
 
-    enum Option {FRONTIER, SAFE_BASE, CLOSEST;}
+    public enum Option {FRONTIER, SAFE_BASE, CLOSEST;}
 
     private StructureType structureType;
     private UnitType unitType;

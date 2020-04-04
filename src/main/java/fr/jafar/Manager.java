@@ -16,6 +16,14 @@ public class Manager {
         this.siteManager = SiteManager.read(in);
     }
 
+    public SiteManager getSiteManager() {
+        return siteManager;
+    }
+
+    public UnitManager getUnitManager() {
+        return unitManager;
+    }
+
     public void update(Scanner in) {
         this.siteManager.update(in);
         this.unitManager = UnitManager.read(in);
@@ -25,14 +33,5 @@ public class Manager {
                     new Finder<>(this.siteManager.getSites()).sortByClosestFrom(unitManager.getHisQueen()).get()
             );
         }
-
-    }
-
-    public SiteManager getSiteManager() {
-        return siteManager;
-    }
-
-    public UnitManager getUnitManager() {
-        return unitManager;
     }
 }

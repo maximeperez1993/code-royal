@@ -47,9 +47,25 @@ public class Site implements Positionable {
         return this.state.getStructureType() == StructureType.MINE;
     }
 
+    public boolean isUpdatable() {
+        if (!isFriendly()) {
+            return false;
+        }
+        if (state.getStructureType() == StructureType.TOWER) {
+            return isTowerUpgradable();
+        }
+        if (state.getStructureType() == StructureType.MINE) {
+            return isMineUpgradable();
+        }
+        return false;
+    }
 
     public boolean hasNoRemainingGold() {
         return this.state.getGold() <= 0;
+    }
+
+    public boolean hasRemainingGold() {
+        return this.state.getGold() > 0;
     }
 
     public boolean isTower() {
@@ -62,6 +78,10 @@ public class Site implements Positionable {
 
     public boolean isMineUpgradable() {
         return isMine() && state.getRemainTurn() < state.getMaxMineSize();
+    }
+
+    public int getMaxMineSize() {
+        return state.getMaxMineSize();
     }
 
     public boolean isTowerUpgradable() {

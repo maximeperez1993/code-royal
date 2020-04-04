@@ -2,24 +2,26 @@ package fr.jafar.structure.site;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class SiteManager {
 
-	private final List<Site> sites;
-	private List<Site> neutralSites;
+    private final List<Site> sites;
+    private List<Site> neutralSites;
 
-	private Site myStartSite;
-	private Site hisStartSite;
+    private Optional<Site> touchedSite;
+    private Site myStartSite;
+    private Site hisStartSite;
 
-	private List<Site> mySites;
-	private List<Site> myReadySites;
-	private List<Site> myBarracks;
-	private List<Site> myReadyBarracks;
-	private List<Site> myMines;
+    private List<Site> mySites;
+    private List<Site> myReadySites;
+    private List<Site> myBarracks;
+    private List<Site> myReadyBarracks;
+    private List<Site> myMines;
 
-	private List<Site> hisSites;
+    private List<Site> hisSites;
 	private List<Site> hisReadySites;
 	private List<Site> hisTrainingSites;
 
@@ -34,38 +36,44 @@ public class SiteManager {
 	}
 
 	public void update(Scanner in) {
-		this.sites.forEach(site -> site.update(in));
-		this.neutralSites = this.sites.stream().filter(Site::isNeutral).collect(Collectors.toList());
+        int touchedSite = in.nextInt();
+        this.sites.forEach(site -> site.update(in));
+        this.touchedSite = this.sites.stream().filter(site -> site.getId() == touchedSite).findFirst();
+        this.neutralSites = this.sites.stream().filter(Site::isNeutral).collect(Collectors.toList());
 
-		this.mySites = this.sites.stream().filter(Site::isFriendly).collect(Collectors.toList());
-		this.myBarracks = this.mySites.stream().filter(Site::isBarrack).collect(Collectors.toList());
+        this.mySites = this.sites.stream().filter(Site::isFriendly).collect(Collectors.toList());
+        this.myBarracks = this.mySites.stream().filter(Site::isBarrack).collect(Collectors.toList());
 
-		this.myReadySites = this.mySites.stream().filter(Site::isReady).collect(Collectors.toList());
-		this.myReadyBarracks = this.myBarracks.stream().filter(Site::isReady).collect(Collectors.toList());
-		this.myMines = this.mySites.stream().filter(Site::isMine).collect(Collectors.toList());
+        this.myReadySites = this.mySites.stream().filter(Site::isReady).collect(Collectors.toList());
+        this.myReadyBarracks = this.myBarracks.stream().filter(Site::isReady).collect(Collectors.toList());
+        this.myMines = this.mySites.stream().filter(Site::isMine).collect(Collectors.toList());
 
-		this.hisSites = this.sites.stream().filter(Site::isNeutral).filter(Site::isEnemy).collect(Collectors.toList());
+        this.hisSites = this.sites.stream().filter(Site::isNeutral).filter(Site::isEnemy).collect(Collectors.toList());
 		this.hisReadySites = this.hisSites.stream().filter(Site::isReady).collect(Collectors.toList());
 		this.hisTrainingSites = this.hisSites.stream().filter(Site::isTraining).collect(Collectors.toList());
-	}
+    }
 
-	public List<Site> getSites() {
-		return sites;
-	}
+    public List<Site> getSites() {
+        return sites;
+    }
 
-	public List<Site> getNeutralSites() {
-		return neutralSites;
-	}
+    public List<Site> getNeutralSites() {
+        return neutralSites;
+    }
 
-	public Site getMyStartSite() {
-		return myStartSite;
-	}
+    public Optional<Site> getTouchedSite() {
+        return touchedSite;
+    }
 
-	public Site getHisStartSite() {
-		return hisStartSite;
-	}
+    public Site getMyStartSite() {
+        return myStartSite;
+    }
 
-	public List<Site> getMySites() {
+    public Site getHisStartSite() {
+        return hisStartSite;
+    }
+
+    public List<Site> getMySites() {
 		return mySites;
 	}
 

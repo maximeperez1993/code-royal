@@ -1,6 +1,7 @@
 package fr.jafar.brain.macro.bo;
 
 import fr.jafar.Manager;
+import fr.jafar.brain.macro.BuildRequest;
 import fr.jafar.structure.site.Site;
 import fr.jafar.structure.site.StructureType;
 
