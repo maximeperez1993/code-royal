@@ -21,6 +21,7 @@ public class Unit implements Positionable {
         this.health = health;
     }
 
+
     @Override
     public Position getPosition() {
         return position;
@@ -38,15 +39,67 @@ public class Unit implements Positionable {
         return unitType == UnitType.QUEEN && team == Team.ENEMY;
     }
 
-    public boolean isMySoldier(){
+    public boolean isMySoldier() {
         return unitType != UnitType.QUEEN && team == Team.FRIENDLY;
     }
 
-    public boolean isHisSoldier(){
+    public boolean isHisSoldier() {
         return unitType != UnitType.QUEEN && team == Team.ENEMY;
+    }
+
+    public int maxSteps() {
+        return unitType.maxSteps();
+    }
+
+    public int getRadius() {
+        return unitType.getRadius();
+    }
+
+    public int getHealth() {
+        return health;
     }
 
     public static Unit read(Scanner in) {
         return new Unit(Position.read(in), Team.read(in), UnitType.read(in), in.nextInt());
+    }
+
+    public static class Builder {
+
+        private Position position;
+        private Team team;
+        private UnitType unitType;
+        private int health;
+
+
+        public Builder(Unit unit) {
+            this.position = unit.position;
+            this.team = unit.team;
+            this.unitType = unit.unitType;
+            this.health = unit.health;
+        }
+
+        public Builder position(Position position) {
+            this.position = position;
+            return this;
+        }
+
+        public Builder team(Team team) {
+            this.team = team;
+            return this;
+        }
+
+        public Builder unitType(UnitType unitType) {
+            this.unitType = unitType;
+            return this;
+        }
+
+        public Builder health(int health) {
+            this.health = health;
+            return this;
+        }
+
+        public Unit build() {
+            return new Unit(new Position(this.position), this.team, this.unitType, this.health);
+        }
     }
 }

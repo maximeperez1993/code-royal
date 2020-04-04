@@ -13,12 +13,33 @@ public class Position implements Positionable {
         this.y = y;
     }
 
+    public Position(Position position) {
+        this.x = position.x;
+        this.y = position.y;
+    }
+
     public double getDistance(Position p) {
         return Math.sqrt((x - p.x) * (x - p.x) + (y - p.y) * (y - p.y));
     }
 
     public Position add(Position other) {
         return new Position(x + other.x, y + other.y);
+    }
+
+    public Position sub(Position other) {
+        return new Position(x - other.x, y - other.y);
+    }
+
+    public Position resize(int newLength) {
+        double length = Math.sqrt(x * x + y * y);
+        return new Position((int) (x / length) * newLength, (int) (y / length) * newLength);
+    }
+
+    public Position moveTo(Position other, int maxSteps) {
+        if (getDistance(other) < maxSteps) {
+            return new Position(this);
+        }
+        return this.add(other.sub(this).resize(maxSteps));
     }
 
     public int getX() {

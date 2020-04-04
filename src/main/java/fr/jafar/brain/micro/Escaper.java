@@ -40,13 +40,27 @@ public class Escaper {
                 .sum();
     }
 
-    private List<Position> getEscapePositions() {
+    public List<Position> getEscapePositions() {
         Unit myQueen = this.manager.getUnitManager().getMyQueen();
         Position myQueenPosition = myQueen.getPosition();
         List<Position> positions = new ArrayList<>();
         for (int i = 0; i < 360; i += 10) {
             int x = (int) (60 * Math.cos(i));
             int y = (int) (60 * Math.sin(i));
+            Position position = myQueenPosition.add(new Position(x, y));
+            if (MapInfos.isOnMap(position)) {
+                positions.add(position);
+            }
+        }
+        return positions;
+    }
+
+    public List<Position> getEscapePositions(Unit unit) {
+        Position myQueenPosition = unit.getPosition();
+        List<Position> positions = new ArrayList<>();
+        for (int i = 0; i < 360; i += 10) {
+            int x = (int) (unit.getRadius() * Math.cos(i));
+            int y = (int) (unit.getRadius() * Math.sin(i));
             Position position = myQueenPosition.add(new Position(x, y));
             if (MapInfos.isOnMap(position)) {
                 positions.add(position);
