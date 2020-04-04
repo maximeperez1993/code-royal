@@ -1,5 +1,6 @@
 package fr.jafar.brain.macro;
 
+import fr.jafar.structure.site.Site;
 import fr.jafar.structure.site.StructureType;
 import fr.jafar.structure.unit.UnitType;
 
@@ -9,7 +10,8 @@ public class BuildRequest {
 
     private StructureType structureType;
     private UnitType unitType;
-    private Option option;
+    private Site site;
+    private String log;
 
     public BuildRequest() {
     }
@@ -24,14 +26,31 @@ public class BuildRequest {
         return this;
     }
 
-    public BuildRequest in(Option option) {
-        this.option = option;
+    public BuildRequest at(Site site) {
+        this.site = site;
         return this;
     }
 
-    public void check() {
-        if (this.option == null) {
-            throw new IllegalStateException("Can't build without option");
+    public BuildRequest log(String log) {
+        this.log = log;
+        return this;
+    }
+
+    public String build() {
+        this.check();
+        System.err.println(String.format("[%s] : %s", this.log, this));
+        if (StructureType.BARRACKS == structureType) {
+            return String.format("BUILD %d %s-%s", site.getId(), structureType, unitType);
+        }
+        return String.format("BUILD %d %s", site.getId(), structureType);
+    }
+
+    private void check() {
+        if (this.site == null) {
+            throw new IllegalStateException("Can't build without target");
+        }
+        if (this.log == null) {
+            throw new IllegalStateException("Need to log every decision");
         }
         if (this.structureType == StructureType.NO_STRUCTURE) {
             throw new IllegalStateException("Can't build NO_STRUCTURE");
@@ -52,16 +71,13 @@ public class BuildRequest {
         return unitType;
     }
 
-    public Option getOption() {
-        return option;
-    }
 
     @Override
     public String toString() {
         return "BuildRequest{" +
                 "structureType=" + structureType +
                 ", unitType=" + unitType +
-                ", option=" + option +
+                ", site=" + site +
                 '}';
     }
 }

@@ -88,6 +88,10 @@ public class Site implements Positionable {
         return isTower() && state.getRemainTurn() <= 500;
     }
 
+    public boolean isTowerLowHp() {
+        return isTower() && state.getRemainTurn() <= 80;
+    }
+
     public int getId() {
         return this.id;
     }

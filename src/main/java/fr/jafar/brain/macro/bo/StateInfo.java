@@ -28,6 +28,10 @@ public class StateInfo {
         return this.touchedSite != null && this.touchedSite.isUpdatable();
     }
 
+    public boolean isTouchSiteTowerLowHp() {
+        return this.touchedSite != null && this.touchedSite.isFriendly() && this.touchedSite.isTowerLowHp();
+    }
+
     public boolean isClosestFreeSiteAtRange() {
         return this.closestFreeSite != null && this.closestFreeSite.getDistance(myQueen) <= 60;
     }
@@ -37,10 +41,14 @@ public class StateInfo {
     }
 
     public Site getClosestFreeSite() {
-        return closestFreeSite;
+        return this.closestFreeSite;
     }
 
     public boolean isUnderAttack() {
-        return this.manager.getUnitManager().getHisSoldiers().stream().anyMatch(soldier -> soldier.getDistance(myQueen) < 500);
+        return !this.manager.getUnitManager().getHisSoldiers().isEmpty();
+    }
+
+    public boolean isCloserSolderUnder(int distance) {
+        return this.manager.getUnitManager().getHisSoldiers().stream().anyMatch(soldier -> soldier.getDistance(myQueen) < distance);
     }
 }
