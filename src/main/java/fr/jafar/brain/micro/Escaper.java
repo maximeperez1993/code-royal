@@ -2,8 +2,9 @@ package fr.jafar.brain.micro;
 
 import fr.jafar.Manager;
 import fr.jafar.structure.Position;
-import fr.jafar.util.MapInfos;
+import fr.jafar.structure.unit.Unit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Escaper {
@@ -15,7 +16,7 @@ public class Escaper {
     }
 
     public Position getEscapePosition() {
-        return this.getFarthestPosition(MapInfos.CARDINALS);
+        return this.getFarthestPosition(this.getEscapePositions());
     }
 
     public Position getFarthestPosition(List<Position> positions) {
@@ -26,8 +27,20 @@ public class Escaper {
 
     private double sumDistance(Position position) {
         return this.manager.getUnitManager().getHisSoldiers().stream()
-                .mapToDouble(unit -> position.getDistance(unit.getPosition()))
+                .mapToDouble(soldier -> position.getDistance(soldier.getPosition()))
                 .sum();
+    }
+
+    private List<Position> getEscapePositions() {
+        Unit myQueen = this.manager.getUnitManager().getMyQueen();
+        Position myQueenPosition = myQueen.getPosition();
+        List<Position> positions = new ArrayList<>();
+        for (int i = 0; i < 360; i += 10) {
+            int x = (int) (60 * Math.cos(i));
+            int y = (int) (60 * Math.sin(i));
+            positions.add(myQueenPosition.add(new Position(x, y)));
+        }
+        return positions;
     }
 
 }

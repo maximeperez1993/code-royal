@@ -34,7 +34,7 @@ public class QueenManager {
             System.err.println("Defensive order, We are under attack !");
             return this.defensive.order(i);
         }
-        System.err.println("Aggressive order, We are under attack !");
+        System.err.println("Aggressive order");
         return this.aggressive.order(i);
     }
 

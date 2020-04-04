@@ -17,6 +17,10 @@ public class Position implements Positionable {
         return Math.sqrt((x - p.x) * (x - p.x) + (y - p.y) * (y - p.y));
     }
 
+    public Position add(Position other) {
+        return new Position(x + other.x, y + other.y);
+    }
+
     public int getX() {
         return x;
     }
