@@ -1,7 +1,7 @@
-package fr.jafar.micro.bo;
+package fr.jafar.brain.macro.bo;
 
-import fr.jafar.site.StructureType;
-import fr.jafar.unit.UnitType;
+import fr.jafar.structure.site.StructureType;
+import fr.jafar.structure.unit.UnitType;
 
 public class BuildRequest {
 

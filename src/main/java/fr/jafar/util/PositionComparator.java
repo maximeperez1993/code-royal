@@ -1,6 +1,6 @@
 package fr.jafar.util;
 
-import fr.jafar.api.Position;
+import fr.jafar.structure.Position;
 
 import java.util.Comparator;
 

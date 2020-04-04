@@ -1,7 +1,7 @@
 package fr.jafar;
 
-import fr.jafar.macro.TrainManager;
-import fr.jafar.micro.QueenManager;
+import fr.jafar.brain.macro.QueenManager;
+import fr.jafar.brain.macro.TrainManager;
 
 import java.util.Scanner;
 

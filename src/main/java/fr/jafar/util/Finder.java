@@ -1,4 +1,6 @@
-package fr.jafar.api;
+package fr.jafar.util;
+
+import fr.jafar.structure.Positionable;
 
 import java.util.List;
 import java.util.Optional;

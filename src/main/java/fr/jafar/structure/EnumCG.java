@@ -1,4 +1,4 @@
-package fr.jafar.api;
+package fr.jafar.structure;
 
 public interface EnumCG {
 

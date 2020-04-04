@@ -1,9 +1,9 @@
-package fr.jafar.micro;
+package fr.jafar.brain.micro;
 
 import fr.jafar.Manager;
-import fr.jafar.api.Position;
-import fr.jafar.unit.Unit;
-import fr.jafar.unit.UnitManager;
+import fr.jafar.structure.Position;
+import fr.jafar.structure.unit.Unit;
+import fr.jafar.structure.unit.UnitManager;
 import fr.jafar.util.MapInfos;
 import org.junit.Test;
 

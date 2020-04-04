@@ -1,4 +1,4 @@
-package fr.jafar.unit;
+package fr.jafar.structure.unit;
 
 import java.util.ArrayList;
 import java.util.List;

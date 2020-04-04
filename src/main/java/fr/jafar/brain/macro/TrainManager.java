@@ -1,7 +1,7 @@
-package fr.jafar.macro;
+package fr.jafar.brain.macro;
 
 import fr.jafar.Manager;
-import fr.jafar.site.Site;
+import fr.jafar.structure.site.Site;
 import fr.jafar.util.PositionableComparator;
 
 import java.util.ArrayList;

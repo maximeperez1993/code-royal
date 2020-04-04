@@ -1,4 +1,4 @@
-package fr.jafar.site;
+package fr.jafar.structure.site;
 
 import java.util.ArrayList;
 import java.util.List;

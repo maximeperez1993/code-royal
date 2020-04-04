@@ -1,12 +1,12 @@
-package fr.jafar.micro;
+package fr.jafar.brain.micro;
 
 import fr.jafar.Manager;
-import fr.jafar.api.Position;
+import fr.jafar.structure.Position;
 import fr.jafar.util.MapInfos;
 
 import java.util.List;
 
-class Escaper {
+public class Escaper {
 
     private final Manager manager;
 

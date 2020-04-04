@@ -1,6 +1,6 @@
-package fr.jafar.unit;
+package fr.jafar.structure.unit;
 
-import fr.jafar.api.EnumCG;
+import fr.jafar.structure.EnumCG;
 
 import java.util.Scanner;
 

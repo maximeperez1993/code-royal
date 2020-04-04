@@ -1,6 +1,6 @@
-package fr.jafar.site;
+package fr.jafar.structure.site;
 
-import fr.jafar.api.Team;
+import fr.jafar.structure.Team;
 
 import java.util.Scanner;
 

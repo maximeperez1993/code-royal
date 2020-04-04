@@ -1,9 +1,9 @@
-package fr.jafar.micro.bo;
+package fr.jafar.brain.macro.bo;
 
 import fr.jafar.Manager;
-import fr.jafar.api.Finder;
-import fr.jafar.site.Site;
-import fr.jafar.site.SiteManager;
+import fr.jafar.structure.site.Site;
+import fr.jafar.structure.site.SiteManager;
+import fr.jafar.util.Finder;
 import fr.jafar.util.MapInfos;
 
 public class BuildLocationManager {

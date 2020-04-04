@@ -1,8 +1,8 @@
-package fr.jafar.micro.bo;
+package fr.jafar.brain.macro.bo;
 
 import fr.jafar.Manager;
-import fr.jafar.site.Site;
-import fr.jafar.site.StructureType;
+import fr.jafar.structure.site.Site;
+import fr.jafar.structure.site.StructureType;
 
 import java.util.ArrayList;
 import java.util.List;

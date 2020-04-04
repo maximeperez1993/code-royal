@@ -1,8 +1,8 @@
 package fr.jafar;
 
-import fr.jafar.api.Finder;
-import fr.jafar.site.SiteManager;
-import fr.jafar.unit.UnitManager;
+import fr.jafar.structure.site.SiteManager;
+import fr.jafar.structure.unit.UnitManager;
+import fr.jafar.util.Finder;
 
 import java.util.Scanner;
 

@@ -1,8 +1,8 @@
-package fr.jafar.site;
+package fr.jafar.structure.site;
 
-import fr.jafar.api.Position;
-import fr.jafar.api.Positionable;
-import fr.jafar.api.Team;
+import fr.jafar.structure.Position;
+import fr.jafar.structure.Positionable;
+import fr.jafar.structure.Team;
 
 import java.util.Scanner;
 

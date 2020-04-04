@@ -1,5 +1,7 @@
 package fr.jafar.api;
 
+import fr.jafar.structure.Position;
+import fr.jafar.util.Finder;
 import org.junit.Test;
 
 import java.util.Arrays;

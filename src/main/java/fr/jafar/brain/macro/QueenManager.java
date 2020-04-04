@@ -1,8 +1,9 @@
-package fr.jafar.micro;
+package fr.jafar.brain.macro;
 
 import fr.jafar.Manager;
-import fr.jafar.api.Position;
-import fr.jafar.micro.bo.BuildManager;
+import fr.jafar.brain.macro.bo.BuildManager;
+import fr.jafar.brain.micro.Escaper;
+import fr.jafar.structure.Position;
 
 import java.util.Optional;
 
