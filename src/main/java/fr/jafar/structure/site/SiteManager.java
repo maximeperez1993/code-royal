@@ -1,5 +1,7 @@
 package fr.jafar.structure.site;
 
+import fr.jafar.structure.unit.UnitType;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +26,9 @@ public class SiteManager {
 
     private List<Site> hisSites;
     private List<Site> hisReadySites;
-    private List<Site> hisTrainingSites;
+    private List<Site> hisKnightBarracks;
+    private List<Site> hisTrainingKnightBarracks;
+    private List<Site> hisTrainingBarracksSites;
 
     public SiteManager(List<Site> sites) {
         this.sites = sites;
@@ -52,7 +56,9 @@ public class SiteManager {
 
         this.hisSites = this.sites.stream().filter(Site::isEnemy).collect(Collectors.toList());
         this.hisReadySites = this.hisSites.stream().filter(Site::isReady).collect(Collectors.toList());
-        this.hisTrainingSites = this.hisSites.stream().filter(Site::isTraining).collect(Collectors.toList());
+        this.hisKnightBarracks = this.hisSites.stream().filter(Site::isBarrack).filter(site -> site.getState().getUnitType() == UnitType.KNIGHT).collect(Collectors.toList());
+        this.hisTrainingKnightBarracks = this.hisSites.stream().filter(Site::isTraining).filter(Site::isBarrack).filter(site -> site.getState().getUnitType() == UnitType.KNIGHT).collect(Collectors.toList());
+        this.hisTrainingBarracksSites = this.hisSites.stream().filter(Site::isTraining).collect(Collectors.toList());
     }
 
     public List<Site> getSites() {
@@ -107,8 +113,16 @@ public class SiteManager {
         return hisReadySites;
     }
 
-    public List<Site> getHisTrainingSites() {
-        return hisTrainingSites;
+    public List<Site> getHisTrainingBarracksSites() {
+        return hisTrainingBarracksSites;
+    }
+
+    public List<Site> getHisKnightBarracks() {
+        return hisKnightBarracks;
+    }
+
+    public List<Site> getHisTrainingKnightBarracks() {
+        return hisTrainingKnightBarracks;
     }
 
     public static SiteManager read(Scanner in) {
@@ -116,7 +130,7 @@ public class SiteManager {
         List<Site> sites = new ArrayList<>();
         while (numSites-- > 0) {
             sites.add(Site.read(in));
-		}
-		return new SiteManager(sites);
-	}
+        }
+        return new SiteManager(sites);
+    }
 }
