@@ -22,6 +22,12 @@ seedList:
   - seed=683972927
   - seed=586660547
   - seed=410110611
+  - seed=747844718
+  - seed=851828179
+  - seed=700013541
+  - seed=683472927
+  - seed=586630247
+  - seed=410210611
 
 # Cooldown between every match, 20 is the minimum to avoid CG's limitation
 requestCooldown: 20
@@ -62,7 +68,5 @@ defaultLanguage: java
 
 # Default value for enemies
 defaultEnemies:
-  - agentId: '123456'
-    name: Recar
-  - agentId: '344556'
-    name: Illedan
+  - agentId: '2750906'
+    name: MaximePRZ
