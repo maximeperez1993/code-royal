@@ -71,6 +71,9 @@ public class BuildRequest {
         return unitType;
     }
 
+    public Site getSite() {
+        return site;
+    }
 
     @Override
     public String toString() {

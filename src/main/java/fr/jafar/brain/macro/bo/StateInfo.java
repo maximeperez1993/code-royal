@@ -48,7 +48,8 @@ public class StateInfo {
         return !this.manager.getUnitManager().getHisSoldiers().isEmpty();
     }
 
-    public boolean isCloserSolderUnder(int distance) {
+
+    public boolean isCloserSoldierUnder(int distance) {
         return this.manager.getUnitManager().getHisSoldiers().stream().anyMatch(soldier -> soldier.getDistance(myQueen) < distance);
     }
 }

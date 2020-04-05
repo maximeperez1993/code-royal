@@ -22,7 +22,7 @@ public class DefensiveAttitude implements Attitude {
         if (i.isTouchSiteTowerLowHp()) {
             return upgrade(i.getTouchedSite());
         }
-        if (i.isCloserSolderUnder(1000)) {
+        if (i.isCloserSoldierUnder(1000)) {
             System.err.println("Escape !!");
             return this.move(escaper.getEscapePosition());
         }

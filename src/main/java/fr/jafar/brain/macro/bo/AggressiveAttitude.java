@@ -31,14 +31,15 @@ public class AggressiveAttitude implements Attitude {
 
     @Override
     public BuildRequest build(Site site) {
+        if (!hasBarracks()) {
+            return new BuildRequest().a(StructureType.BARRACKS).of(UnitType.KNIGHT).at(site);
+        }
+
         // TODO : if is in our safe zone, maybe it's better to build a mine
         if (site.hasRemainingGold() && site.getMaxMineSize() >= 2) {
             return new BuildRequest().a(StructureType.MINE).at(site);
         }
 
-        if (!hasBarracks()) {
-            return new BuildRequest().a(StructureType.BARRACKS).of(UnitType.KNIGHT).at(site);
-        }
         return new BuildRequest().a(StructureType.TOWER).at(site);
     }
 
