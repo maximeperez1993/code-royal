@@ -4,4 +4,4 @@ target/
 *.iml
 /CHelperReport.txt
 *.log
-/benchmark/*.txt
+benchmark/*.txt
