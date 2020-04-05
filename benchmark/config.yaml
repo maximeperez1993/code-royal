@@ -49,6 +49,8 @@ codeConfigurationList:
         name: yannOrhon # Enemy name
       - agentId: '2217825'
         name: Shadaia
+      - agentId: '2750906'
+        name: MaximePRZ
   - sourcePath: .\myBots\Player64809570.java
 # -- The following values are the default ones that are used if not defined in the codeConfigurationList
 
