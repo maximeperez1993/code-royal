@@ -38,5 +38,9 @@ public enum UnitType implements EnumCG {
         return EnumCG.find(in.nextInt(), values());
     }
 
+    public static UnitType findByCode(int code) {
+        return EnumCG.find(code, values());
+    }
+
 
 }

@@ -17,12 +17,12 @@ import static org.mockito.Mockito.when;
 
 public class EscaperTest {
 
-    private static final Position p1 = new Position(0,0);
-    private static final Position p2 = new Position(0,10);
-    private static final Position p3 = new Position(0,20);
-    private static final Position p4 = new Position(0,30);
-    private static final Position p5 = new Position(0,40);
-    private static final List<Position> positions = Arrays.asList(p1,p2,p3,p4,p5);
+    private static final Position p1 = new Position(0, 0);
+    private static final Position p2 = new Position(0, 10);
+    private static final Position p3 = new Position(0, 20);
+    private static final Position p4 = new Position(0, 30);
+    private static final Position p5 = new Position(0, 40);
+    private static final List<Position> positions = Arrays.asList(p1, p2, p3, p4, p5);
 
 
     @Test
@@ -31,10 +31,7 @@ public class EscaperTest {
         List<Unit> hisSoldiers = Arrays.asList(mockUnit(new Position(0, 1)));
 
 
-        UnitManager unitManager = mock(UnitManager.class);
-        when(unitManager.getHisSoldiers()).thenReturn(hisSoldiers);
-        Manager manager = mock(Manager.class);
-        when(manager.getUnitManager()).thenReturn(unitManager);
+        Manager manager = mockManager(hisSoldiers);
         Escaper escaper = new Escaper(manager);
 
         // When
@@ -49,10 +46,7 @@ public class EscaperTest {
         // Given
         List<Unit> hisSoldiers = Arrays.asList(mockUnit(MapInfos.RIGHT));
 
-        UnitManager unitManager = mock(UnitManager.class);
-        when(unitManager.getHisSoldiers()).thenReturn(hisSoldiers);
-        Manager manager = mock(Manager.class);
-        when(manager.getUnitManager()).thenReturn(unitManager);
+        Manager manager = mockManager(hisSoldiers);
         Escaper escaper = new Escaper(manager);
 
         // When
@@ -62,6 +56,7 @@ public class EscaperTest {
         assertEquals(MapInfos.BOTTOM_LEFT, result);
     }
 
+
     @Test
     public void shouldGetFarthestPositionWithTwoUnitAndCardinals() {
         // Given
@@ -70,10 +65,7 @@ public class EscaperTest {
                 mockUnit(MapInfos.BOTTOM)
         );
 
-        UnitManager unitManager = mock(UnitManager.class);
-        when(unitManager.getHisSoldiers()).thenReturn(hisSoldiers);
-        Manager manager = mock(Manager.class);
-        when(manager.getUnitManager()).thenReturn(unitManager);
+        Manager manager = mockManager(hisSoldiers);
         Escaper escaper = new Escaper(manager);
 
         // When
@@ -81,6 +73,14 @@ public class EscaperTest {
 
         // Then
         assertEquals(MapInfos.TOP_LEFT, result);
+    }
+
+    private Manager mockManager(List<Unit> hisSoldiers) {
+        UnitManager unitManager = mock(UnitManager.class);
+        when(unitManager.getHisSoldiers()).thenReturn(hisSoldiers);
+        Manager manager = mock(Manager.class);
+        when(manager.getUnitManager()).thenReturn(unitManager);
+        return manager;
     }
 
     private Unit mockUnit(Position position) {

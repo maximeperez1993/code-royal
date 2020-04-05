@@ -41,18 +41,7 @@ public class Escaper {
     }
 
     public List<Position> getEscapePositions() {
-        Unit myQueen = this.manager.getUnitManager().getMyQueen();
-        Position myQueenPosition = myQueen.getPosition();
-        List<Position> positions = new ArrayList<>();
-        for (int i = 0; i < 360; i += 10) {
-            int x = (int) (60 * Math.cos(i));
-            int y = (int) (60 * Math.sin(i));
-            Position position = myQueenPosition.add(new Position(x, y));
-            if (MapInfos.isOnMap(position)) {
-                positions.add(position);
-            }
-        }
-        return positions;
+        return getEscapePositions(this.manager.getUnitManager().getMyQueen());
     }
 
     public List<Position> getEscapePositions(Unit unit) {

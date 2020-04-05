@@ -1,6 +1,7 @@
 package fr.jafar.structure.site;
 
 import fr.jafar.structure.Team;
+import fr.jafar.structure.unit.UnitType;
 
 import java.util.Scanner;
 
@@ -11,7 +12,7 @@ public class SiteState {
     private final StructureType structureType;
     private final Team team;
     private final int remainTurn;
-    private final int param2;
+    private final int param2; // Quand il n'y a pas de bâtiment construit ou si c'est une mine: -1,  Si c'est une tour, son rayon de portée //Si c'est une caserne, le type d'armée qu'elle produit 0 pour une caserne de chevaliers, 1 pour une caserne d'archers, 2 pour une caserne de géants.
 
     private SiteState(int gold, int maxMineSize, StructureType structureType, Team team, int remainTurn, int param2) {
         this.gold = gold;
@@ -40,6 +41,14 @@ public class SiteState {
 
     public int getMaxMineSize() {
         return maxMineSize;
+    }
+
+    public UnitType getUnitType() {
+        return UnitType.findByCode(param2);
+    }
+
+    public int getTowerRange() {
+        return param2;
     }
 
     public StructureType getStructureType() {

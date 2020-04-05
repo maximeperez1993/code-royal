@@ -35,6 +35,10 @@ public class AggressiveAttitude implements Attitude {
             return new BuildRequest().a(StructureType.BARRACKS).of(UnitType.KNIGHT).at(site);
         }
 
+        if (isEnemyTrainingSoldiers()) {
+            return new BuildRequest().a(StructureType.TOWER).at(site).log("Enemy is training soldiers");
+        }
+
         // TODO : if is in our safe zone, maybe it's better to build a mine
         if (site.hasRemainingGold() && site.getMaxMineSize() >= 2) {
             return new BuildRequest().a(StructureType.MINE).at(site);
@@ -45,5 +49,11 @@ public class AggressiveAttitude implements Attitude {
 
     private boolean hasBarracks() {
         return manager.getSiteManager().getMySites().stream().anyMatch(Site::isBarrack);
+    }
+
+    private boolean isEnemyTrainingSoldiers() {
+        return manager.getSiteManager().getHisTrainingSites().stream()
+                .filter(Site::isBarrack).filter(site -> site.getState().getUnitType() == UnitType.KNIGHT)
+                .anyMatch(Site::isTraining);
     }
 }

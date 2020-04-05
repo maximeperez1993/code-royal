@@ -32,7 +32,7 @@ public class BuildRequest {
     }
 
     public BuildRequest log(String log) {
-        this.log = log;
+        this.log = this.log == null ? log : this.log + ", " + log;
         return this;
     }
 

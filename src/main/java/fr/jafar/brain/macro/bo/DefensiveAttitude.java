@@ -34,6 +34,8 @@ public class DefensiveAttitude implements Attitude {
         if (!hasBarracks() && hasTower()) {
             return new BuildRequest().a(StructureType.BARRACKS).of(UnitType.KNIGHT).at(site);
         }
+
+
         return new BuildRequest().a(StructureType.TOWER).at(site);
     }
 
