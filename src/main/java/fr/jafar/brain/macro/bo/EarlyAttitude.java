@@ -6,6 +6,8 @@ import fr.jafar.brain.micro.Escaper;
 import fr.jafar.structure.site.Site;
 import fr.jafar.structure.site.StructureType;
 import fr.jafar.structure.unit.UnitType;
+import fr.jafar.util.Finder;
+import fr.jafar.util.MapInfos;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +26,7 @@ public class EarlyAttitude implements Attitude {
     private final Manager manager;
     private final Escaper escaper;
     private final List<BuildRequest> buildOrder;
+    private boolean isFinish;
 
     public EarlyAttitude(Manager manager, Escaper escaper) {
         this.manager = manager;
@@ -36,6 +39,13 @@ public class EarlyAttitude implements Attitude {
         if (i.isTouchSiteUpdatable()) {
             return upgrade(i.getTouchedSite());
         }
+
+        if (shouldBuildNext()) {
+            BuildRequest currentBuildOrder = BUILD_ORDER.get(this.buildOrder.size());
+            currentBuildOrder = currentBuildOrder.at(getSite(currentBuildOrder, i)).log("Build order #" + this.buildOrder.size());
+            this.buildOrder.add(currentBuildOrder);
+        }
+
         if (i.isClosestFreeSiteAtRange()) {
             return this.build(i.getClosestFreeSite()).log("Build closest").build();
         }
@@ -43,17 +53,25 @@ public class EarlyAttitude implements Attitude {
         return this.build(i.getClosestFreeSite()).log("Move to closest to build").build();
     }
 
+    private Site getSite(BuildRequest buildRequest, StateInfo i) {
+        if (buildRequest.getStructureType() == StructureType.TOWER) {
+            buildRequest.log("Aggressive early tower");
+            return new Finder<>(manager.getSiteManager().getNeutralSites()).sortByClosestFrom(MapInfos.MIDDLE).get();
+        }
+        return i.getClosestFreeSite();
+    }
+
     @Override
     public BuildRequest build(Site site) {
-        if (shouldBuildNext()) {
-            this.buildOrder.add(BUILD_ORDER.get(this.buildOrder.size()).at(site).log("Build order #" + this.buildOrder.size()));
-            return this.buildOrder.get(this.buildOrder.size() - 1);
-        }
         return this.buildOrder.get(this.buildOrder.size() - 1);
     }
 
+
     public boolean isFinish() {
-        return buildOrder.size() == BUILD_ORDER.size() && shouldBuildNext();
+        if (!isFinish) {
+            isFinish = buildOrder.size() == BUILD_ORDER.size() && shouldBuildNext();
+        }
+        return isFinish;
     }
 
     private boolean shouldBuildNext() {

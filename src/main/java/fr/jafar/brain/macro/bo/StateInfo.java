@@ -36,6 +36,7 @@ public class StateInfo {
         return this.closestFreeSite != null && this.closestFreeSite.getDistance(myQueen) <= 60;
     }
 
+
     public Site getTouchedSite() {
         return touchedSite;
     }
