@@ -1,9 +1,12 @@
 package fr.jafar.brain.micro;
 
+import fr.jafar.Manager;
 import fr.jafar.structure.Position;
 import fr.jafar.structure.site.Site;
 import fr.jafar.structure.unit.Unit;
 
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -14,18 +17,17 @@ public class SimulationManager {
     private final Set<Site> sites;
     private final Escaper escaper;
 
-    public SimulationManager(Unit myQueen, Set<Unit> hisSoldiers, Set<Site> sites, Escaper escaper) {
-        this.myQueen = myQueen;
-        this.hisSoldiers = hisSoldiers;
-        this.sites = sites;
+    public SimulationManager(Manager manager, Escaper escaper) {
+        this.myQueen = manager.getUnitManager().getMyQueen();
+        this.hisSoldiers = new HashSet<>(manager.getUnitManager().getHisSoldiers());
+        this.sites = new HashSet<>(manager.getSiteManager().getSites());
         this.escaper = escaper;
     }
 
-    public int compute(int depth) {
+    public Position compute(int depth) {
         List<Position> myQueenPossibleMoves = this.escaper.getEscapePositions();
         return myQueenPossibleMoves.stream()
-                .mapToInt(move -> this.computeMyMove(moveUnit(myQueen, move), this.hisSoldiers, depth))
-                .max()
+                .max(Comparator.comparingInt(move -> this.computeMyMove(moveUnit(myQueen, move), this.hisSoldiers, depth)))
                 .orElseThrow(IllegalStateException::new);
     }
 
