@@ -1,6 +1,6 @@
 package fr.jafar.brain.macro;
 
-import fr.jafar.Manager;
+import fr.jafar.info.Manager;
 import fr.jafar.structure.site.Site;
 import fr.jafar.util.PositionableComparator;
 

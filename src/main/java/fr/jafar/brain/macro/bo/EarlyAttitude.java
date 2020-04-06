@@ -1,8 +1,8 @@
 package fr.jafar.brain.macro.bo;
 
-import fr.jafar.Manager;
 import fr.jafar.brain.macro.BuildRequest;
 import fr.jafar.brain.micro.Escaper;
+import fr.jafar.info.Manager;
 import fr.jafar.structure.site.Site;
 import fr.jafar.structure.site.StructureType;
 import fr.jafar.structure.unit.UnitType;

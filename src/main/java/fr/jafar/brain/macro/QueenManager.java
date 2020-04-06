@@ -1,11 +1,11 @@
 package fr.jafar.brain.macro;
 
-import fr.jafar.Manager;
 import fr.jafar.brain.macro.bo.AggressiveAttitude;
 import fr.jafar.brain.macro.bo.DefensiveAttitude;
 import fr.jafar.brain.macro.bo.EarlyAttitude;
 import fr.jafar.brain.macro.bo.StateInfo;
 import fr.jafar.brain.micro.Escaper;
+import fr.jafar.info.Manager;
 
 import java.util.Objects;
 

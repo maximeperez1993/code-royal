@@ -1,4 +1,4 @@
-package fr.jafar;
+package fr.jafar.info;
 
 import fr.jafar.structure.site.SiteManager;
 import fr.jafar.structure.unit.UnitManager;
