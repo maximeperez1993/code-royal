@@ -29,7 +29,7 @@ public class EarlyAttitude implements Attitude {
             new BuildRequest().a(StructureType.BARRACKS).of(UnitType.KNIGHT),
             new BuildRequest().a(StructureType.TOWER),
             new BuildRequest().a(StructureType.TOWER),
-            new BuildRequest().a(StructureType.MINE)
+            new BuildRequest().a(StructureType.TOWER)
 
     );
 
@@ -49,7 +49,7 @@ public class EarlyAttitude implements Attitude {
 
     @Override
     public String order(StateInfo i) {
-        this.buildOrderModel = manager.getStartHp() <= 35 ? LOW_HP_BO : HIGH_HP_BO;
+        this.buildOrderModel = manager.getStartHp() <= 40 ? LOW_HP_BO : HIGH_HP_BO;
         if (i.isTouchSiteUpdatable()) {
             return upgrade(i.getTouchedSite());
         }
