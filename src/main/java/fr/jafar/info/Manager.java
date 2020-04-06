@@ -2,16 +2,17 @@ package fr.jafar.info;
 
 import fr.jafar.structure.Team;
 import fr.jafar.structure.site.Site;
-import fr.jafar.structure.site.SiteManager;
-import fr.jafar.structure.unit.UnitManager;
+import fr.jafar.structure.unit.Unit;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
 public class Manager {
 
-    private final SiteManager siteManager;
+    private final List<Site> sites;
 
+    private Site touchedSite;
     private int startHp = 0;
 
     private Faction my;
@@ -19,18 +20,18 @@ public class Manager {
     private Faction free;
 
     public Manager(Scanner in) {
-        this.siteManager = SiteManager.read(in);
+        this.sites = InfoReader.readSites(in);
     }
 
     public void update(Scanner in) {
-        this.siteManager.update(in);
-        UnitManager unitManager = UnitManager.read(in);
+        this.touchedSite = InfoReader.readTouchedSite(in, this.sites);
+        InfoReader.readSitesStates(in, this.sites);
+        List<Unit> units = InfoReader.readUnits(in);
 
-        this.my = new Faction(siteManager, unitManager, Team.FRIENDLY);
-        this.his = new Faction(siteManager, unitManager, Team.ENEMY);
-        this.free = new Faction(siteManager, unitManager, Team.NEUTRAL);
+        this.my = new Faction(Team.FRIENDLY, this.sites, units);
+        this.his = new Faction(Team.ENEMY, this.sites, units);
+        this.free = new Faction(Team.NEUTRAL, this.sites, units);
         this.startHp = startHp == 0 ? my.queen().getHealth() : startHp;
-
     }
 
     public Faction my() {
@@ -50,6 +51,6 @@ public class Manager {
     }
 
     public Optional<Site> getTouchedSite() {
-        return siteManager.getTouchedSite();
+        return Optional.ofNullable(this.touchedSite);
     }
 }

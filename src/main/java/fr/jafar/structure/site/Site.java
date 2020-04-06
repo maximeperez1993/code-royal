@@ -3,6 +3,7 @@ package fr.jafar.structure.site;
 import fr.jafar.structure.Position;
 import fr.jafar.structure.Positionable;
 import fr.jafar.structure.Team;
+import fr.jafar.structure.unit.UnitType;
 
 import java.util.Scanner;
 
@@ -45,6 +46,10 @@ public class Site implements Positionable {
 
     public boolean isBarrack() {
         return this.state.getStructureType() == StructureType.BARRACKS;
+    }
+
+    public boolean isKnightBarrack() {
+        return isBarrack() && state.getUnitType() == UnitType.KNIGHT;
     }
 
     public boolean isMine() {
