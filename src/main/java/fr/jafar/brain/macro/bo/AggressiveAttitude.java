@@ -38,12 +38,12 @@ public class AggressiveAttitude implements Attitude {
             return new BuildRequest().a(StructureType.BARRACKS).of(UnitType.KNIGHT).at(site);
         }
 
-        if (isEnemyTrainingSoldiers()) {
+        if (manager.my().towers().count() < 3 && isEnemyTrainingSoldiers()) {
             return new BuildRequest().a(StructureType.TOWER).at(site).log("Enemy is training soldiers");
         }
 
         // TODO : if is in our safe zone, maybe it's better to build a mine
-        if (site.hasRemainingGold() && site.getMaxMineSize() >= 2 && !isAtFrontLine(site)) {
+        if (site.hasRemainingGold() && manager.my().towers().findAny().isPresent() && !isAtFrontLine(site)) {
             return new BuildRequest().a(StructureType.MINE).at(site);
         }
 

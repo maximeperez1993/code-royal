@@ -1,10 +1,13 @@
 package fr.jafar.info;
 
+import fr.jafar.structure.Positionable;
 import fr.jafar.structure.Team;
 import fr.jafar.structure.site.Site;
 import fr.jafar.structure.unit.Unit;
+import fr.jafar.util.comparators.MyComparators;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -66,6 +69,10 @@ public class Faction {
 
     public Stream<Site> towers() {
         return towers.stream();
+    }
+
+    public Optional<Unit> knightCloserOf(Positionable positionable) {
+        return knights.stream().min(MyComparators.distanceFrom(positionable));
     }
 
     private boolean isInTeam(Unit unit) {

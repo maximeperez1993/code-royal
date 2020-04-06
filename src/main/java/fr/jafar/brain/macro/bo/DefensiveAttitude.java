@@ -27,6 +27,17 @@ public class DefensiveAttitude implements Attitude {
         if (hasTimeToBuild(i.getClosestFreeSite())) {
             return this.build(i.getClosestFreeSite()).log("Has time to build to closest free site").build();
         }
+
+        Unit hisCloserKnight = manager.his().knightCloserOf(manager.my().queen()).orElseThrow(IllegalStateException::new);
+        long nbTowersBetweenKnightAndMe = manager.my().towers().filter(tower -> tower.isBetween(hisCloserKnight, manager.my().queen(), tower.getTowerRange())).count();
+
+        if (nbTowersBetweenKnightAndMe > 3) {
+            Optional<Site> safeTower = getSafeTower();
+            if (safeTower.isPresent()) {
+                return new BuildRequest().a(StructureType.MINE).at(safeTower.get()).log("Should have enough tower to def, let's build a mine at backlane").build();
+            }
+        }
+
         if (i.isCloserSoldierUnder(2000)) {
             Optional<Site> freeAndSafeSite = getFreeAndSafeSite();
             if (freeAndSafeSite.isPresent()) {

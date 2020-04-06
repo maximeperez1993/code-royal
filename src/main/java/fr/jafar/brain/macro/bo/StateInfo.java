@@ -56,4 +56,8 @@ public class StateInfo {
     public boolean isCloserSoldierUnder(int distance) {
         return this.manager.his().knights().anyMatch(soldier -> soldier.getDistance(myQueen) < distance);
     }
+
+    public boolean isCloserSoldierMoreThan(int distance) {
+        return this.manager.his().knights().anyMatch(soldier -> soldier.getDistance(myQueen) > distance);
+    }
 }
