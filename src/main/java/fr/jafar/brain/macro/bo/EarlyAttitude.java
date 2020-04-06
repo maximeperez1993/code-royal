@@ -28,7 +28,9 @@ public class EarlyAttitude implements Attitude {
             new BuildRequest().a(StructureType.MINE),
             new BuildRequest().a(StructureType.BARRACKS).of(UnitType.KNIGHT),
             new BuildRequest().a(StructureType.TOWER),
-            new BuildRequest().a(StructureType.TOWER)
+            new BuildRequest().a(StructureType.TOWER),
+            new BuildRequest().a(StructureType.MINE)
+
     );
 
 
