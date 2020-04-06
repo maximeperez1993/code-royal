@@ -80,6 +80,16 @@ public class Unit implements Positionable {
         return new Unit(Position.read(in), Team.read(in), UnitType.read(in), in.nextInt());
     }
 
+    @Override
+    public String toString() {
+        return "Unit{" +
+                "position=" + position +
+                ", team=" + team +
+                ", unitType=" + unitType +
+                ", health=" + health +
+                '}';
+    }
+
     public static class Builder {
 
         private Position position;

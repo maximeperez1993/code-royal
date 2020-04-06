@@ -29,6 +29,7 @@ public class DefensiveAttitude implements Attitude {
         }
 
         Unit hisCloserKnight = manager.his().knightCloserOf(manager.my().queen()).orElseThrow(IllegalStateException::new);
+        System.err.println("HisCloserKnight=" + hisCloserKnight);
         long nbTowersBetweenKnightAndMe = manager.my().towers().filter(tower -> tower.isBetween(hisCloserKnight, manager.my().queen(), tower.getTowerRange())).count();
 
         if (nbTowersBetweenKnightAndMe > 3) {
@@ -46,18 +47,17 @@ public class DefensiveAttitude implements Attitude {
             Optional<Site> safeTower = getSafeTower();
             if (safeTower.isPresent()) {
                 Site safeTowerSite = safeTower.get();
-                Unit hisKnight = manager.his().knights().min(MyComparators.distanceFrom(manager.my().queen())).get();
-                if (safeTowerSite.getPosition().isBetween(hisKnight.getPosition(), manager.my().queen().getPosition(), 100)) {
-                    return this.build(safeTowerSite).log("Build to next safe tower").build();
+                if (safeTowerSite.isBetween(hisCloserKnight, manager.my().queen(), 100)) {
+                    return this.build(safeTowerSite).log("Build to next safe tower " + safeTowerSite).build();
                 }
-                Position behindTower = escaper.getEscapePositions(safeTowerSite).stream()
-                        .filter(safePosition -> safeTowerSite.getPosition().isBetween(hisKnight.getPosition(), safePosition, 100))
-                        .findFirst()
-                        .get();
-                System.err.println("Try to go behind tower at " + behindTower);
+                Position behindTower = behindSite(safeTowerSite, hisCloserKnight);
+                System.err.println("Try to go behind safe tower " + safeTowerSite + " at " + behindTower);
                 return move(behindTower);
             }
-            return this.build(i.getClosestFreeSite()).log("Build to closer site").build();
+            Site closerTower = manager.my().towers().max(MyComparators.distanceFrom(hisCloserKnight)).get();
+            Position behindTower = behindSite(closerTower, hisCloserKnight);
+            System.err.println("Try to go behind closer tower " + closerTower + " at " + behindTower);
+            return move(behindTower);
         }
         if (i.isTouchSiteTowerLowHp()) {
             return upgrade(i.getTouchedSite());
@@ -65,26 +65,33 @@ public class DefensiveAttitude implements Attitude {
         return this.build(i.getClosestFreeSite()).log("Soldiers far away, we can try to build").build();
     }
 
+    private Position behindSite(Site site, Unit hisCloserKnight) {
+        return escaper.getEscapePositions(site).stream()
+                .filter(safePosition -> site.getPosition().isBetween(hisCloserKnight.getPosition(), safePosition, site.getRadius()))
+                .max(MyComparators.distanceFrom(hisCloserKnight))
+                .get();
+    }
+
     private boolean hasTimeToBuild(Site closestFreeSite) {
-        Unit hisKnight = manager.his().knights().min(MyComparators.distanceFrom(manager.my().queen())).get();
+        Unit hisKnight = manager.his().knightCloserOf(closestFreeSite).get();
         double hisDistance = closestFreeSite.getDistance(hisKnight);
         double myDistance = closestFreeSite.getDistance(manager.my().queen());
         //return hisDistance > myDistance / 0.6;
-        return hisDistance * 0.9 > myDistance;
+        return hisDistance * 0.7 > myDistance;
     }
 
     private Optional<Site> getFreeAndSafeSite() {
-        Position hisSoldier = manager.his().knights().findFirst().get().getPosition();
+        Unit hisKnight = manager.his().knightCloserOf(manager.my().queen()).get();
         return manager.free().sites()
-                .filter(site -> manager.my().towers().anyMatch(tower -> tower.getPosition().isBetween(site.getPosition(), hisSoldier, 100)))
+                .filter(site -> manager.my().towers().anyMatch(tower -> tower.getPosition().isBetween(site.getPosition(), hisKnight, 100)))
                 .filter(this::hasTimeToBuild)
                 .min(MyComparators.distanceFrom(manager.my().queen()));
     }
 
     private Optional<Site> getSafeTower() {
-        Position hisKnights = manager.his().knights().findFirst().get().getPosition();
+        Unit hisKnight = manager.his().knightCloserOf(manager.my().queen()).get();
         return manager.my().towers()
-                .filter(site -> manager.my().towers().anyMatch(tower -> tower.getPosition().isBetween(site.getPosition(), hisKnights, 100)))
+                .filter(towerSafe -> manager.my().towers().anyMatch(tower -> tower.isBetween(towerSafe, hisKnight, 100)))
                 .filter(this::hasTimeToBuild)
                 .max(MyComparators.distanceFrom(manager.my().queen()));
     }
