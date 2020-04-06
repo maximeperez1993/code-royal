@@ -24,8 +24,12 @@ public class DefensiveAttitude implements Attitude {
 
     @Override
     public String order(StateInfo i) {
-        if (hasTimeToBuild(i.getClosestFreeSite())) {
-            return this.build(i.getClosestFreeSite()).log("Has time to build to closest free site").build();
+        if (manager.my().towers().count() == 0) {
+            return this.build(i.getClosestFreeSite()).log("No towers, need to build it now").build();
+        }
+
+        if (hasTimeToBuild(i.getClosestSafeFreeSite())) {
+            return this.build(i.getClosestSafeFreeSite()).log("Has time to build to closest free site").build();
         }
 
         Unit hisCloserKnight = manager.his().knightCloserOf(manager.my().queen()).orElseThrow(IllegalStateException::new);
@@ -62,7 +66,7 @@ public class DefensiveAttitude implements Attitude {
         if (i.isTouchSiteTowerLowHp()) {
             return upgrade(i.getTouchedSite());
         }
-        return this.build(i.getClosestFreeSite()).log("Soldiers far away, we can try to build").build();
+        return this.build(i.getClosestSafeFreeSite()).log("Soldiers far away, we can try to build").build();
     }
 
     private Position behindSite(Site site, Unit hisCloserKnight) {

@@ -58,7 +58,7 @@ public class EarlyAttitude implements Attitude {
             prepareNext(i);
         }
 
-        return this.build(i.getClosestFreeSite()).log("Build closest").build();
+        return this.build(i.getClosestSafeFreeSite()).log("Build closest").build();
     }
 
     @Override
@@ -69,7 +69,7 @@ public class EarlyAttitude implements Attitude {
 
     private void prepareNext(StateInfo i) {
         BuildRequest currentBuildOrder = buildOrderModel.get(this.buildOrder.size());
-        currentBuildOrder = currentBuildOrder.at(i.getClosestFreeSite()).log("Build order #" + this.buildOrder.size());
+        currentBuildOrder = currentBuildOrder.at(i.getClosestSafeFreeSite()).log("Build order #" + this.buildOrder.size());
         this.buildOrder.add(currentBuildOrder);
     }
 

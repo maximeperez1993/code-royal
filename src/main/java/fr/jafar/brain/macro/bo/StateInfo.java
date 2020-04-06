@@ -12,15 +12,20 @@ public class StateInfo {
     private final Manager manager;
     private final Unit myQueen;
     private final Site touchedSite;
+    private final Site closestSafeFreeSite;
     private final Site closestFreeSite;
 
     public StateInfo(Manager manager) {
         this.manager = manager;
         this.myQueen = this.manager.my().queen();
         this.touchedSite = this.manager.getTouchedSite().orElse(null);
-        this.closestFreeSite = new Finder<>(this.manager.free().sites())
+        this.closestSafeFreeSite = new Finder<>(this.manager.free().sites())
                 .sortByClosestFrom(this.myQueen)
                 .filterSafeFromEnemyTowerRange(manager.his().towers().collect(Collectors.toList())).getOptional()
+                .orElseGet(() -> new Finder<>(this.manager.my().sites()).sortByClosestFrom(this.myQueen).get());
+
+        this.closestFreeSite = new Finder<>(this.manager.free().sites())
+                .sortByClosestFrom(this.myQueen).getOptional()
                 .orElseGet(() -> new Finder<>(this.manager.my().sites()).sortByClosestFrom(this.myQueen).get());
     }
 
@@ -33,20 +38,23 @@ public class StateInfo {
     }
 
     public boolean isClosestFreeSiteAtRange() {
-        return this.closestFreeSite != null && this.closestFreeSite.getDistance(myQueen) <= 60;
+        return this.closestSafeFreeSite != null && this.closestSafeFreeSite.getDistance(myQueen) <= 60;
     }
 
+    public Site getClosestFreeSite() {
+        return closestFreeSite;
+    }
 
     public Site getTouchedSite() {
         return touchedSite;
     }
 
-    public Site getClosestFreeSite() {
-        return this.closestFreeSite;
+    public Site getClosestSafeFreeSite() {
+        return this.closestSafeFreeSite;
     }
 
     public boolean isSitesAllTaken() {
-        return this.closestFreeSite == null;
+        return this.closestSafeFreeSite == null;
     }
 
     public boolean isUnderAttack() {

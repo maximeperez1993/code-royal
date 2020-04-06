@@ -29,7 +29,7 @@ public class AggressiveAttitude implements Attitude {
             return upgrade(i.getTouchedSite());
         }
 
-        return this.build(i.getClosestFreeSite()).log("Build closest").build();
+        return this.build(i.getClosestSafeFreeSite()).log("Build closest").build();
     }
 
     @Override
