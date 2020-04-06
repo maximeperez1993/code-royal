@@ -19,6 +19,10 @@ public class Site implements Positionable {
         this.radius = radius;
     }
 
+    public Team getTeam() {
+        return state.getTeam();
+    }
+
     public boolean isNeutral() {
         return this.state.getTeam() == Team.NEUTRAL;
     }

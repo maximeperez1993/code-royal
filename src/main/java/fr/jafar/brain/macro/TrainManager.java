@@ -37,7 +37,7 @@ public class TrainManager {
     private List<Site> getSitesToTrain(int gold) {
         int cost = 0;
         List<Site> sitesToTrain = new ArrayList<>();
-        List<Site> myReadySites = manager.getSiteManager().getMyReadySites().stream()
+        List<Site> myReadySites = manager.getSiteManager().getMyReadyBarracks().stream()
                 .sorted(new PositionableComparator(this.manager.getUnitManager().getHisQueen()))
                 .collect(Collectors.toList());
 

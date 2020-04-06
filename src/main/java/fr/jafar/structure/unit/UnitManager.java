@@ -24,6 +24,10 @@ public class UnitManager {
         this.hisSoldiers = units.stream().filter(Unit::isHisSoldier).collect(Collectors.toList());
     }
 
+    public List<Unit> getUnits() {
+        return units;
+    }
+
     public Unit getMyQueen() {
         return myQueen;
     }

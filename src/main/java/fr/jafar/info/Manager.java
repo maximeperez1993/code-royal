@@ -1,8 +1,8 @@
 package fr.jafar.info;
 
+import fr.jafar.structure.Team;
 import fr.jafar.structure.site.SiteManager;
 import fr.jafar.structure.unit.UnitManager;
-import fr.jafar.util.Finder;
 
 import java.util.Scanner;
 
@@ -12,6 +12,10 @@ public class Manager {
     private UnitManager unitManager;
 
     private int startHp;
+
+    private Faction my;
+    private Faction his;
+    private Faction free;
 
     public Manager(Scanner in) {
         this.siteManager = SiteManager.read(in);
@@ -28,13 +32,23 @@ public class Manager {
     public void update(Scanner in) {
         this.siteManager.update(in);
         this.unitManager = UnitManager.read(in);
+
         this.startHp = this.unitManager.getMyQueen().getHealth();
-        if (this.siteManager.getMyStartSite() == null) {
-            this.siteManager.setStartSites(
-                    new Finder<>(this.siteManager.getSites()).sortByClosestFrom(unitManager.getMyQueen()).get(),
-                    new Finder<>(this.siteManager.getSites()).sortByClosestFrom(unitManager.getHisQueen()).get()
-            );
-        }
+        this.my = new Faction(siteManager, unitManager, Team.FRIENDLY);
+        this.his = new Faction(siteManager, unitManager, Team.ENEMY);
+        this.free = new Faction(siteManager, unitManager, Team.NEUTRAL);
+    }
+
+    public Faction my() {
+        return my;
+    }
+
+    public Faction his() {
+        return his;
+    }
+
+    public Faction free() {
+        return free;
     }
 
     public int getStartHp() {

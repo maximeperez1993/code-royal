@@ -1,6 +1,5 @@
 package fr.jafar.structure.site;
 
-import fr.jafar.structure.Team;
 import fr.jafar.structure.unit.UnitType;
 
 import java.util.ArrayList;
@@ -15,8 +14,6 @@ public class SiteManager {
     private List<Site> neutralSites;
 
     private Optional<Site> touchedSite;
-    private Site myStartSite;
-    private Site hisStartSite;
 
     private List<Site> mySites;
     private List<Site> myReadySites;
@@ -35,11 +32,6 @@ public class SiteManager {
     public SiteManager(List<Site> sites) {
         this.sites = sites;
         this.neutralSites = new ArrayList<>(sites);
-    }
-
-    public void setStartSites(Site myStartSite, Site hisStartSite) {
-        this.myStartSite = myStartSite;
-        this.hisStartSite = hisStartSite;
     }
 
     public void update(Scanner in) {
@@ -74,21 +66,6 @@ public class SiteManager {
 
     public Optional<Site> getTouchedSite() {
         return touchedSite;
-    }
-
-    public Site getMyStartSite() {
-        return myStartSite;
-    }
-
-    public Site getStartSite(Team team) {
-        if (team == Team.FRIENDLY) {
-            return myStartSite;
-        }
-        return hisStartSite;
-    }
-
-    public Site getHisStartSite() {
-        return hisStartSite;
     }
 
     public List<Site> getMySites() {

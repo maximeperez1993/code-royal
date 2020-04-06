@@ -31,8 +31,25 @@ public class Unit implements Positionable {
         System.out.println(String.format("BUILD %d BARRACKS-KNIGHT", site.getId()));
     }
 
+    public UnitType getUnitType() {
+        return unitType;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
     public boolean isMyQueen() {
         return unitType == UnitType.QUEEN && team == Team.FRIENDLY;
+    }
+
+    public boolean isQueen() {
+        return unitType == UnitType.QUEEN;
+    }
+
+
+    public boolean isKnight() {
+        return unitType == UnitType.KNIGHT;
     }
 
     public boolean isHisQueen() {
