@@ -75,6 +75,10 @@ public class Faction {
         return knights.stream().min(MyComparators.distanceFrom(positionable));
     }
 
+    public int currentIncome() {
+        return mines.stream().mapToInt(Site::getMineLevel).sum();
+    }
+
     private boolean isInTeam(Unit unit) {
         return unit.getTeam() == this.team;
     }

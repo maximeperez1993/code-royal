@@ -89,6 +89,10 @@ public class Site implements Positionable {
         return isMine() && state.getRemainTurn() < state.getMaxMineSize();
     }
 
+    public int getMineLevel() {
+        return state.getRemainTurn();
+    }
+
     public int getMaxMineSize() {
         return state.getMaxMineSize();
     }
