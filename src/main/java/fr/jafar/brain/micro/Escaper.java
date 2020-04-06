@@ -36,7 +36,7 @@ public class Escaper {
     }
 
     private double sumDistance(Position position) {
-        return this.manager.his().knights().stream()
+        return this.manager.his().knights()
                 .mapToDouble(soldier -> position.getDistance(soldier.getPosition()))
                 .sum();
     }

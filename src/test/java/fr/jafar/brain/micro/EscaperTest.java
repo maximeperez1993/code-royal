@@ -77,7 +77,7 @@ public class EscaperTest {
 
     private Manager mockManager(List<Unit> hisKnights) {
         Faction his = mock(Faction.class);
-        when(his.knights()).thenReturn(hisKnights);
+        when(his.knights()).thenAnswer(i -> hisKnights.stream());
         Manager manager = mock(Manager.class);
         when(manager.his()).thenReturn(his);
         return manager;

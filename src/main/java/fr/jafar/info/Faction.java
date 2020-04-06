@@ -6,6 +6,7 @@ import fr.jafar.structure.unit.Unit;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Faction {
 
@@ -22,6 +23,7 @@ public class Faction {
 
     public Faction(Team team, List<Site> allSites, List<Unit> allUnits) {
         this.team = team;
+
         List<Unit> units = allUnits.stream().filter(this::isInTeam).collect(Collectors.toList());
         this.queen = units.stream().filter(Unit::isQueen).findFirst().orElse(null);
         this.knights = units.stream().filter(Unit::isKnight).collect(Collectors.toList());
@@ -38,32 +40,32 @@ public class Faction {
         return queen;
     }
 
-    public List<Unit> knights() {
-        return knights;
+    public Stream<Unit> knights() {
+        return knights.stream();
     }
 
-    public List<Site> sites() {
-        return sites;
+    public Stream<Site> sites() {
+        return sites.stream();
     }
 
-    public List<Site> barracks() {
-        return barracks;
+    public Stream<Site> barracks() {
+        return barracks.stream();
     }
 
-    public List<Site> readyBarracks() {
-        return readyBarracks;
+    public Stream<Site> readyBarracks() {
+        return readyBarracks.stream();
     }
 
-    public List<Site> trainingKnightBarracks() {
-        return trainingKnightBarracks;
+    public Stream<Site> trainingKnightBarracks() {
+        return trainingKnightBarracks.stream();
     }
 
-    public List<Site> mines() {
-        return mines;
+    public Stream<Site> mines() {
+        return mines.stream();
     }
 
-    public List<Site> towers() {
-        return towers;
+    public Stream<Site> towers() {
+        return towers.stream();
     }
 
     private boolean isInTeam(Unit unit) {

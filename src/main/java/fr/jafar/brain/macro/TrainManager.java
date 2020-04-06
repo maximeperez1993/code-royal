@@ -2,7 +2,7 @@ package fr.jafar.brain.macro;
 
 import fr.jafar.info.Manager;
 import fr.jafar.structure.site.Site;
-import fr.jafar.util.PositionableComparator;
+import fr.jafar.util.comparators.PositionableComparator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class TrainManager {
     }
 
     private String getTrainString(int gold) {
-        if (manager.my().sites().isEmpty()) {
+        if (!manager.my().sites().findAny().isPresent()) {
             return "TRAIN";
         }
         List<Site> sitesToTrain = this.getSitesToTrain(gold);
@@ -37,7 +37,7 @@ public class TrainManager {
     private List<Site> getSitesToTrain(int gold) {
         int cost = 0;
         List<Site> sitesToTrain = new ArrayList<>();
-        List<Site> myReadySites = manager.my().readyBarracks().stream()
+        List<Site> myReadySites = manager.my().readyBarracks()
                 .sorted(new PositionableComparator(this.manager.his().queen()))
                 .collect(Collectors.toList());
 

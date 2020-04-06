@@ -7,8 +7,8 @@ import fr.jafar.structure.Positionable;
 import fr.jafar.structure.site.Site;
 import fr.jafar.structure.site.StructureType;
 import fr.jafar.structure.unit.UnitType;
+import fr.jafar.util.comparators.MyComparators;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -52,18 +52,16 @@ public class AggressiveAttitude implements Attitude {
 
     private boolean isAtFrontLine(Site site) {
         Positionable danger;
-        Optional<Site> hisBarrack = manager.his().trainingKnightBarracks().stream().findFirst();
+        Optional<Site> hisBarrack = manager.his().trainingKnightBarracks().findFirst();
         if (hisBarrack.isPresent()) {
             danger = hisBarrack.get();
         } else {
             danger = manager.his().queen();
         }
 
-        List<Site> mySitesAndTarget = new ArrayList<>(manager.my().sites());
+        List<Site> mySitesAndTarget = manager.my().sites().collect(Collectors.toList());
         mySitesAndTarget.add(site);
-        mySitesAndTarget = mySitesAndTarget.stream()
-                .sorted((s1, s2) -> (int) (s1.getDistance(danger) - s2.getDistance(danger)))
-                .collect(Collectors.toList());
+        mySitesAndTarget.sort(MyComparators.distanceFrom(danger));
         System.err.println(mySitesAndTarget);
         if (mySitesAndTarget.size() < 2) {
             return true;
@@ -73,10 +71,10 @@ public class AggressiveAttitude implements Attitude {
     }
 
     private boolean hasBarracks() {
-        return !manager.my().barracks().isEmpty();
+        return manager.my().barracks().findAny().isPresent();
     }
 
     private boolean isEnemyTrainingSoldiers() {
-        return !manager.his().trainingKnightBarracks().isEmpty();
+        return manager.his().trainingKnightBarracks().findAny().isPresent();
     }
 }

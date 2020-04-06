@@ -5,7 +5,6 @@ import fr.jafar.structure.Position;
 import fr.jafar.structure.unit.Unit;
 
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -17,7 +16,7 @@ public class SimulationManager {
 
     public SimulationManager(Manager manager, Escaper escaper) {
         this.myQueen = manager.my().queen();
-        this.hisKnights = new HashSet<>(manager.his().knights());
+        this.hisKnights = manager.his().knights().collect(Collectors.toSet());
         this.escaper = escaper;
     }
 

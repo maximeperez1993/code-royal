@@ -5,6 +5,8 @@ import fr.jafar.structure.site.Site;
 import fr.jafar.structure.unit.Unit;
 import fr.jafar.util.Finder;
 
+import java.util.stream.Collectors;
+
 public class StateInfo {
 
     private final Manager manager;
@@ -18,7 +20,7 @@ public class StateInfo {
         this.touchedSite = this.manager.getTouchedSite().orElse(null);
         this.closestFreeSite = new Finder<>(this.manager.free().sites())
                 .sortByClosestFrom(this.myQueen)
-                .filterSafeFromEnemyTowerRange(manager.his().towers()).getOptional()
+                .filterSafeFromEnemyTowerRange(manager.his().towers().collect(Collectors.toList())).getOptional()
                 .orElseGet(() -> new Finder<>(this.manager.my().sites()).sortByClosestFrom(this.myQueen).get());
     }
 
@@ -48,10 +50,10 @@ public class StateInfo {
     }
 
     public boolean isUnderAttack() {
-        return !this.manager.his().knights().isEmpty();
+        return this.manager.his().knights().findAny().isPresent();
     }
 
     public boolean isCloserSoldierUnder(int distance) {
-        return this.manager.his().knights().stream().anyMatch(soldier -> soldier.getDistance(myQueen) < distance);
+        return this.manager.his().knights().anyMatch(soldier -> soldier.getDistance(myQueen) < distance);
     }
 }

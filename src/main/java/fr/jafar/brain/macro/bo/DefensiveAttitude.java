@@ -8,8 +8,8 @@ import fr.jafar.structure.site.Site;
 import fr.jafar.structure.site.StructureType;
 import fr.jafar.structure.unit.Unit;
 import fr.jafar.structure.unit.UnitType;
+import fr.jafar.util.comparators.MyComparators;
 
-import java.util.List;
 import java.util.Optional;
 
 public class DefensiveAttitude implements Attitude {
@@ -35,7 +35,7 @@ public class DefensiveAttitude implements Attitude {
             Optional<Site> safeTower = getSafeTower();
             if (safeTower.isPresent()) {
                 Site safeTowerSite = safeTower.get();
-                Unit hisKnight = manager.his().knights().stream().min((o1, o2) -> (int) (o1.getDistance(manager.my().queen()) - o2.getDistance(manager.my().queen()))).get();
+                Unit hisKnight = manager.his().knights().min(MyComparators.distanceFrom(manager.my().queen())).get();
                 if (safeTowerSite.getPosition().isBetween(hisKnight.getPosition(), manager.my().queen().getPosition(), 100)) {
                     return this.build(safeTowerSite).log("Build to next safe tower").build();
                 }
@@ -55,28 +55,27 @@ public class DefensiveAttitude implements Attitude {
     }
 
     private boolean hasTimeToBuild(Site closestFreeSite) {
-        Unit hisKnight = manager.his().knights().stream().min((o1, o2) -> (int) (o1.getDistance(manager.my().queen()) - o2.getDistance(manager.my().queen()))).get();
+        Unit hisKnight = manager.his().knights().min(MyComparators.distanceFrom(manager.my().queen())).get();
         double hisDistance = closestFreeSite.getDistance(hisKnight);
         double myDistance = closestFreeSite.getDistance(manager.my().queen());
+        //return hisDistance > myDistance / 0.6;
         return hisDistance * 0.9 > myDistance;
     }
 
     private Optional<Site> getFreeAndSafeSite() {
-        Position hisSoldier = manager.his().knights().get(0).getPosition();
-        List<Site> myTowers = manager.my().towers();
-        return manager.free().sites().stream()
-                .filter(site -> myTowers.stream().anyMatch(tower -> tower.getPosition().isBetween(site.getPosition(), hisSoldier, 100)))
+        Position hisSoldier = manager.his().knights().findFirst().get().getPosition();
+        return manager.free().sites()
+                .filter(site -> manager.my().towers().anyMatch(tower -> tower.getPosition().isBetween(site.getPosition(), hisSoldier, 100)))
                 .filter(this::hasTimeToBuild)
-                .min((o1, o2) -> (int) (o1.getDistance(manager.my().queen()) - o2.getDistance(manager.my().queen())));
+                .min(MyComparators.distanceFrom(manager.my().queen()));
     }
 
     private Optional<Site> getSafeTower() {
-        Position hisKnights = manager.his().knights().get(0).getPosition();
-        List<Site> myTowers = manager.my().towers();
-        return myTowers.stream()
-                .filter(site -> myTowers.stream().anyMatch(tower -> tower.getPosition().isBetween(site.getPosition(), hisKnights, 100)))
+        Position hisKnights = manager.his().knights().findFirst().get().getPosition();
+        return manager.my().towers()
+                .filter(site -> manager.my().towers().anyMatch(tower -> tower.getPosition().isBetween(site.getPosition(), hisKnights, 100)))
                 .filter(this::hasTimeToBuild)
-                .max((o1, o2) -> (int) (o1.getDistance(manager.my().queen()) - o2.getDistance(manager.my().queen())));
+                .max(MyComparators.distanceFrom(manager.my().queen()));
     }
 
 
@@ -89,10 +88,10 @@ public class DefensiveAttitude implements Attitude {
     }
 
     private boolean hasBarracks() {
-        return !manager.my().barracks().isEmpty();
+        return manager.my().barracks().findAny().isPresent();
     }
 
     private boolean hasTower() {
-        return !manager.my().towers().isEmpty();
+        return !manager.my().towers().findAny().isPresent();
     }
 }

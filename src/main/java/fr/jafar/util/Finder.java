@@ -15,6 +15,10 @@ public class Finder<T extends Positionable> {
         this.stream = positionables.stream();
     }
 
+    public Finder(Stream<T> steam) {
+        this.stream = steam;
+    }
+
 
     public Finder<T> sortByFarthestFrom(Positionable origin) {
         this.stream = this.stream.sorted((p1, p2) -> (int) (origin.getDistance(p2) - origin.getDistance(p1)));
