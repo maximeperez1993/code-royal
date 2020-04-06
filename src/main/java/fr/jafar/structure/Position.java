@@ -57,6 +57,11 @@ public class Position implements Positionable {
         return y;
     }
 
+    @Override
+    public int getRadius() {
+        return 0;
+    }
+
     public static Position read(Scanner scanner) {
         return new Position(scanner.nextInt(), scanner.nextInt());
     }

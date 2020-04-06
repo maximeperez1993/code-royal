@@ -46,6 +46,11 @@ public class Manager {
         return free;
     }
 
+
+    public List<Site> allSites() {
+        return sites;
+    }
+
     public int getStartHp() {
         return startHp;
     }

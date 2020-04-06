@@ -21,7 +21,6 @@ public class Unit implements Positionable {
         this.health = health;
     }
 
-
     @Override
     public Position getPosition() {
         return position;
@@ -29,6 +28,19 @@ public class Unit implements Positionable {
 
     public void build(Site site) {
         System.out.println(String.format("BUILD %d BARRACKS-KNIGHT", site.getId()));
+    }
+
+    /**
+     * (r1+r2)² >= (x1-x2)² + (y1-y2)²
+     *
+     * @param element
+     * @return
+     */
+    public boolean isInCollision(Positionable element) {
+        Position p = element.getPosition();
+        return (getRadius() * element.getRadius()) * (getRadius() * element.getRadius()) >=
+                (p.getX() - position.getX()) * (p.getX() - position.getX()) +
+                        (p.getY() - position.getY()) * (p.getY() - position.getY());
     }
 
     public UnitType getUnitType() {
@@ -64,10 +76,11 @@ public class Unit implements Positionable {
         return unitType != UnitType.QUEEN && team == Team.ENEMY;
     }
 
-    public int maxSteps() {
+    public int getMaxSteps() {
         return unitType.maxSteps();
     }
 
+    @Override
     public int getRadius() {
         return unitType.getRadius();
     }

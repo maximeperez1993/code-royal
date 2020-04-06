@@ -52,10 +52,10 @@ public class SimulationManager {
     }
 
     private Unit attack(Unit soldier, Unit myQueen) {
-        if (soldier.getDistance(myQueen) < soldier.maxSteps()) {
-            return moveUnit(soldier, soldier.getPosition().moveTo(myQueen.getPosition(), soldier.maxSteps() - myQueen.getRadius()));
+        if (soldier.getDistance(myQueen) < soldier.getMaxSteps()) {
+            return moveUnit(soldier, soldier.getPosition().moveTo(myQueen.getPosition(), soldier.getMaxSteps() - myQueen.getRadius()));
         }
-        return moveUnit(soldier, soldier.getPosition().moveTo(myQueen.getPosition(), soldier.maxSteps()));
+        return moveUnit(soldier, soldier.getPosition().moveTo(myQueen.getPosition(), soldier.getMaxSteps()));
     }
 
     private Unit moveUnit(Unit unit, Position move) {

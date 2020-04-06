@@ -109,6 +109,7 @@ public class Site implements Positionable {
         return this.id;
     }
 
+    @Override
     public int getRadius() {
         return radius;
     }
@@ -126,10 +127,29 @@ public class Site implements Positionable {
         return state.getTowerRange();
     }
 
+    /**
+     * (r1+r2+range)² >= (x1-x2)² + (y1-y2)²
+     *
+     * @param p
+     * @return
+     */
     public boolean isInTowerRange(Positionable p) {
-        return (getTowerRange() + getRadius()) * (getTowerRange() + getRadius()) >=
+        return (getTowerRange() + getRadius() + p.getRadius()) * (getTowerRange() + getRadius() + p.getRadius()) >=
                 (p.getPosition().getX() - position.getX()) * (p.getPosition().getX() - position.getX()) +
                         (p.getPosition().getY() - position.getY()) * (p.getPosition().getY() - position.getY());
+    }
+
+    /**
+     * (r1+r2)² >= (x1-x2)² + (y1-y2)²
+     *
+     * @param element
+     * @return
+     */
+    public boolean isInCollision(Positionable element) {
+        Position p = element.getPosition();
+        return (getRadius() * element.getRadius()) * (getRadius() * element.getRadius()) >=
+                (p.getX() - position.getX()) * (p.getX() - position.getX()) +
+                        (p.getY() - position.getY()) * (p.getY() - position.getY());
     }
 
     public void update(Scanner in) {

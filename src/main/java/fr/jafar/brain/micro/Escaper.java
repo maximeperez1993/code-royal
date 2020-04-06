@@ -49,8 +49,8 @@ public class Escaper {
         Position myQueenPosition = unit.getPosition();
         List<Position> positions = new ArrayList<>();
         for (int i = 0; i < 360; i += 10) {
-            int x = (int) (unit.maxSteps() * Math.cos(i));
-            int y = (int) (unit.maxSteps() * Math.sin(i));
+            int x = (int) (unit.getMaxSteps() * Math.cos(i));
+            int y = (int) (unit.getMaxSteps() * Math.sin(i));
             Position position = myQueenPosition.add(new Position(x, y));
             if (MapInfos.isOnMap(position)) {
                 positions.add(position);
@@ -60,12 +60,12 @@ public class Escaper {
     }
 
     public List<Position> getEscapePositions(Site site) {
-        Position myQueenPosition = site.getPosition();
+        Position sitePosition = site.getPosition();
         List<Position> positions = new ArrayList<>();
         for (int i = 0; i < 360; i += 2) {
             int x = (int) (site.getRadius() * Math.cos(i));
             int y = (int) (site.getRadius() * Math.sin(i));
-            Position position = myQueenPosition.add(new Position(x, y));
+            Position position = sitePosition.add(new Position(x, y));
             if (MapInfos.isOnMap(position)) {
                 positions.add(position);
             }
