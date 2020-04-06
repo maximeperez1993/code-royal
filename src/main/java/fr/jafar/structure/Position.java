@@ -30,6 +30,13 @@ public class Position implements Positionable {
         return new Position(x - other.x, y - other.y);
     }
 
+    public boolean isBetween(Position p1, Position p2, int delta) {
+        return x > Math.min(p1.x, p2.x) - delta &&
+                x < Math.max(p1.x, p2.x) + delta &&
+                y > Math.min(p1.y, p2.y) - delta &&
+                y < Math.max(p1.y, p2.y) + delta;
+    }
+
     public Position resize(int newLength) {
         double length = Math.sqrt(x * x + y * y);
         return new Position((int) (x / length) * newLength, (int) (y / length) * newLength);

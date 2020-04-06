@@ -6,8 +6,6 @@ import fr.jafar.brain.micro.Escaper;
 import fr.jafar.structure.site.Site;
 import fr.jafar.structure.site.StructureType;
 import fr.jafar.structure.unit.UnitType;
-import fr.jafar.util.Finder;
-import fr.jafar.util.MapInfos;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,24 +39,10 @@ public class EarlyAttitude implements Attitude {
         }
 
         if (shouldBuildNext()) {
-            BuildRequest currentBuildOrder = BUILD_ORDER.get(this.buildOrder.size());
-            currentBuildOrder = currentBuildOrder.at(getSite(currentBuildOrder, i)).log("Build order #" + this.buildOrder.size());
-            this.buildOrder.add(currentBuildOrder);
+            prepareNext(i);
         }
 
-        if (i.isClosestFreeSiteAtRange()) {
-            return this.build(i.getClosestFreeSite()).log("Build closest").build();
-        }
-        //TODO : Should optimize movement to target
-        return this.build(i.getClosestFreeSite()).log("Move to closest to build").build();
-    }
-
-    private Site getSite(BuildRequest buildRequest, StateInfo i) {
-        if (buildRequest.getStructureType() == StructureType.TOWER) {
-            buildRequest.log("Aggressive early tower");
-            return new Finder<>(manager.getSiteManager().getNeutralSites()).sortByClosestFrom(MapInfos.MIDDLE).get();
-        }
-        return i.getClosestFreeSite();
+        return this.build(i.getClosestFreeSite()).log("Build closest").build();
     }
 
     @Override
@@ -66,6 +50,12 @@ public class EarlyAttitude implements Attitude {
         return this.buildOrder.get(this.buildOrder.size() - 1);
     }
 
+
+    private void prepareNext(StateInfo i) {
+        BuildRequest currentBuildOrder = BUILD_ORDER.get(this.buildOrder.size());
+        currentBuildOrder = currentBuildOrder.at(i.getClosestFreeSite()).log("Build order #" + this.buildOrder.size());
+        this.buildOrder.add(currentBuildOrder);
+    }
 
     public boolean isFinish() {
         if (!isFinish) {

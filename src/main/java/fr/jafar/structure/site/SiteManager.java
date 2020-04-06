@@ -1,5 +1,6 @@
 package fr.jafar.structure.site;
 
+import fr.jafar.structure.Team;
 import fr.jafar.structure.unit.UnitType;
 
 import java.util.ArrayList;
@@ -77,12 +78,19 @@ public class SiteManager {
         return myStartSite;
     }
 
+    public Site getStartSite(Team team) {
+        if (team == Team.FRIENDLY) {
+            return myStartSite;
+        }
+        return hisStartSite;
+    }
+
     public Site getHisStartSite() {
         return hisStartSite;
     }
 
     public List<Site> getMySites() {
-		return mySites;
+        return mySites;
     }
 
     public List<Site> getMyReadySites() {
