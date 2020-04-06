@@ -62,7 +62,7 @@ public class Escaper {
     public List<Position> getEscapePositions(Site site) {
         Position myQueenPosition = site.getPosition();
         List<Position> positions = new ArrayList<>();
-        for (int i = 0; i < 360; i += 10) {
+        for (int i = 0; i < 360; i += 2) {
             int x = (int) (site.getRadius() * Math.cos(i));
             int y = (int) (site.getRadius() * Math.sin(i));
             Position position = myQueenPosition.add(new Position(x, y));

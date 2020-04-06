@@ -36,13 +36,14 @@ public class DefensiveAttitude implements Attitude {
             if (safeTower.isPresent()) {
                 Site safeTowerSite = safeTower.get();
                 Unit hisSoldier = manager.getUnitManager().getHisSoldiers().stream().min((o1, o2) -> (int) (o1.getDistance(manager.getUnitManager().getMyQueen()) - o2.getDistance(manager.getUnitManager().getMyQueen()))).get();
-                if (safeTowerSite.getPosition().isBetween(hisSoldier.getPosition(), manager.getUnitManager().getMyQueen().getPosition(), 0)) {
+                if (safeTowerSite.getPosition().isBetween(hisSoldier.getPosition(), manager.getUnitManager().getMyQueen().getPosition(), 100)) {
                     return this.build(safeTowerSite).log("Build to next safe tower").build();
                 }
                 Position behindTower = escaper.getEscapePositions(safeTowerSite).stream()
-                        .filter(safePosition -> safeTowerSite.getPosition().isBetween(hisSoldier.getPosition(), safePosition, 0))
+                        .filter(safePosition -> safeTowerSite.getPosition().isBetween(hisSoldier.getPosition(), safePosition, 100))
                         .findFirst()
                         .get();
+                System.err.println("Try to go behind tower at " + behindTower);
                 return move(behindTower);
             }
             return this.build(i.getClosestFreeSite()).log("Build to closer site").build();

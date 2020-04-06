@@ -13,7 +13,9 @@ import java.util.List;
 
 public class EarlyAttitude implements Attitude {
 
-    private static final List<BuildRequest> BUILD_ORDER = Arrays.asList(
+
+    private static final List<BuildRequest> HIGH_HP_BO = Arrays.asList(
+            new BuildRequest().a(StructureType.MINE),
             new BuildRequest().a(StructureType.MINE),
             new BuildRequest().a(StructureType.MINE),
             new BuildRequest().a(StructureType.BARRACKS).of(UnitType.KNIGHT),
@@ -21,19 +23,31 @@ public class EarlyAttitude implements Attitude {
             new BuildRequest().a(StructureType.TOWER)
     );
 
+    private static final List<BuildRequest> LOW_HP_BO = Arrays.asList(
+            new BuildRequest().a(StructureType.MINE),
+            new BuildRequest().a(StructureType.MINE),
+            new BuildRequest().a(StructureType.BARRACKS).of(UnitType.KNIGHT),
+            new BuildRequest().a(StructureType.TOWER),
+            new BuildRequest().a(StructureType.TOWER)
+    );
+
+
     private final Manager manager;
     private final Escaper escaper;
     private final List<BuildRequest> buildOrder;
     private boolean isFinish;
+    private List<BuildRequest> buildOrderModel;
 
     public EarlyAttitude(Manager manager, Escaper escaper) {
         this.manager = manager;
         this.escaper = escaper;
+        this.buildOrderModel = HIGH_HP_BO;
         this.buildOrder = new ArrayList<>();
     }
 
     @Override
     public String order(StateInfo i) {
+        this.buildOrderModel = manager.getStartHp() <= 35 ? LOW_HP_BO : HIGH_HP_BO;
         if (i.isTouchSiteUpdatable()) {
             return upgrade(i.getTouchedSite());
         }
@@ -52,14 +66,14 @@ public class EarlyAttitude implements Attitude {
 
 
     private void prepareNext(StateInfo i) {
-        BuildRequest currentBuildOrder = BUILD_ORDER.get(this.buildOrder.size());
+        BuildRequest currentBuildOrder = buildOrderModel.get(this.buildOrder.size());
         currentBuildOrder = currentBuildOrder.at(i.getClosestFreeSite()).log("Build order #" + this.buildOrder.size());
         this.buildOrder.add(currentBuildOrder);
     }
 
     public boolean isFinish() {
         if (!isFinish) {
-            isFinish = buildOrder.size() == BUILD_ORDER.size() && shouldBuildNext();
+            isFinish = buildOrder.size() == buildOrderModel.size() && shouldBuildNext();
         }
         return isFinish;
     }
