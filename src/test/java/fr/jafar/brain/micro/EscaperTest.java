@@ -1,9 +1,9 @@
 package fr.jafar.brain.micro;
 
+import fr.jafar.info.Faction;
 import fr.jafar.info.Manager;
 import fr.jafar.structure.Position;
 import fr.jafar.structure.unit.Unit;
-import fr.jafar.structure.unit.UnitManager;
 import fr.jafar.util.MapInfos;
 import org.junit.Test;
 
@@ -75,11 +75,11 @@ public class EscaperTest {
         assertEquals(MapInfos.TOP_LEFT, result);
     }
 
-    private Manager mockManager(List<Unit> hisSoldiers) {
-        UnitManager unitManager = mock(UnitManager.class);
-        when(unitManager.getHisSoldiers()).thenReturn(hisSoldiers);
+    private Manager mockManager(List<Unit> hisKnights) {
+        Faction his = mock(Faction.class);
+        when(his.knights()).thenReturn(hisKnights);
         Manager manager = mock(Manager.class);
-        when(manager.getUnitManager()).thenReturn(unitManager);
+        when(manager.his()).thenReturn(his);
         return manager;
     }
 

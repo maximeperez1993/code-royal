@@ -85,6 +85,6 @@ public class EarlyAttitude implements Attitude {
     }
 
     private boolean hasBarracks() {
-        return manager.getSiteManager().getMySites().stream().anyMatch(Site::isBarrack);
+        return manager.my().sites().stream().anyMatch(Site::isBarrack);
     }
 }

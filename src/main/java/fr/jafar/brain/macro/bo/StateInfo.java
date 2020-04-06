@@ -5,26 +5,21 @@ import fr.jafar.structure.site.Site;
 import fr.jafar.structure.unit.Unit;
 import fr.jafar.util.Finder;
 
-import java.util.List;
-
 public class StateInfo {
 
     private final Manager manager;
     private final Unit myQueen;
-    private final List<Site> neutralSites;
     private final Site touchedSite;
     private final Site closestFreeSite;
 
-
     public StateInfo(Manager manager) {
         this.manager = manager;
-        this.myQueen = this.manager.getUnitManager().getMyQueen();
-        this.neutralSites = this.manager.getSiteManager().getNeutralSites();
-        this.touchedSite = this.manager.getSiteManager().getTouchedSite().orElse(null);
-        this.closestFreeSite = new Finder<>(this.neutralSites)
+        this.myQueen = this.manager.my().queen();
+        this.touchedSite = this.manager.getTouchedSite().orElse(null);
+        this.closestFreeSite = new Finder<>(this.manager.free().sites())
                 .sortByClosestFrom(this.myQueen)
-                .filterSafeFromEnemyTowerRange(manager.getSiteManager().getHisTowers()).getOptional()
-                .orElseGet(() -> new Finder<>(this.manager.getSiteManager().getMySites()).sortByClosestFrom(this.myQueen).get());
+                .filterSafeFromEnemyTowerRange(manager.his().towers()).getOptional()
+                .orElseGet(() -> new Finder<>(this.manager.my().sites()).sortByClosestFrom(this.myQueen).get());
     }
 
     public boolean isTouchSiteUpdatable() {
@@ -53,11 +48,10 @@ public class StateInfo {
     }
 
     public boolean isUnderAttack() {
-        return !this.manager.getUnitManager().getHisSoldiers().isEmpty();
+        return !this.manager.his().knights().isEmpty();
     }
 
-
     public boolean isCloserSoldierUnder(int distance) {
-        return this.manager.getUnitManager().getHisSoldiers().stream().anyMatch(soldier -> soldier.getDistance(myQueen) < distance);
+        return this.manager.his().knights().stream().anyMatch(soldier -> soldier.getDistance(myQueen) < distance);
     }
 }

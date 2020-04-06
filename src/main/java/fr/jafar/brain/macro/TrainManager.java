@@ -21,7 +21,7 @@ public class TrainManager {
     }
 
     private String getTrainString(int gold) {
-        if (manager.getSiteManager().getMySites().isEmpty()) {
+        if (manager.my().sites().isEmpty()) {
             return "TRAIN";
         }
         List<Site> sitesToTrain = this.getSitesToTrain(gold);
@@ -37,8 +37,8 @@ public class TrainManager {
     private List<Site> getSitesToTrain(int gold) {
         int cost = 0;
         List<Site> sitesToTrain = new ArrayList<>();
-        List<Site> myReadySites = manager.getSiteManager().getMyReadyBarracks().stream()
-                .sorted(new PositionableComparator(this.manager.getUnitManager().getHisQueen()))
+        List<Site> myReadySites = manager.my().readyBarracks().stream()
+                .sorted(new PositionableComparator(this.manager.his().queen()))
                 .collect(Collectors.toList());
 
         for (Site site : myReadySites) {

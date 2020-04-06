@@ -52,14 +52,14 @@ public class AggressiveAttitude implements Attitude {
 
     private boolean isAtFrontLine(Site site) {
         Positionable danger;
-        Optional<Site> hisBarrack = manager.getSiteManager().getHisTrainingKnightBarracks().stream().findFirst();
+        Optional<Site> hisBarrack = manager.his().trainingKnightBarracks().stream().findFirst();
         if (hisBarrack.isPresent()) {
             danger = hisBarrack.get();
         } else {
-            danger = manager.getUnitManager().getHisQueen();
+            danger = manager.his().queen();
         }
 
-        List<Site> mySitesAndTarget = new ArrayList<>(manager.getSiteManager().getMySites());
+        List<Site> mySitesAndTarget = new ArrayList<>(manager.my().sites());
         mySitesAndTarget.add(site);
         mySitesAndTarget = mySitesAndTarget.stream()
                 .sorted((s1, s2) -> (int) (s1.getDistance(danger) - s2.getDistance(danger)))
@@ -73,11 +73,10 @@ public class AggressiveAttitude implements Attitude {
     }
 
     private boolean hasBarracks() {
-        return manager.getSiteManager().getMySites().stream().anyMatch(Site::isBarrack);
+        return !manager.my().barracks().isEmpty();
     }
 
     private boolean isEnemyTrainingSoldiers() {
-        return manager.getSiteManager().getHisTrainingKnightBarracks().stream()
-                .anyMatch(Site::isTraining);
+        return !manager.his().trainingKnightBarracks().isEmpty();
     }
 }

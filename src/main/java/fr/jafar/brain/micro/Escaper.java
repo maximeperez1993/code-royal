@@ -36,13 +36,13 @@ public class Escaper {
     }
 
     private double sumDistance(Position position) {
-        return this.manager.getUnitManager().getHisSoldiers().stream()
+        return this.manager.his().knights().stream()
                 .mapToDouble(soldier -> position.getDistance(soldier.getPosition()))
                 .sum();
     }
 
     public List<Position> getEscapePositions() {
-        return getEscapePositions(this.manager.getUnitManager().getMyQueen());
+        return getEscapePositions(this.manager.my().queen());
     }
 
     public List<Position> getEscapePositions(Unit unit) {
