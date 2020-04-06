@@ -2,6 +2,7 @@ package fr.jafar.brain.micro;
 
 import fr.jafar.Manager;
 import fr.jafar.structure.Position;
+import fr.jafar.structure.site.Site;
 import fr.jafar.structure.unit.Unit;
 import fr.jafar.util.MapInfos;
 
@@ -48,8 +49,22 @@ public class Escaper {
         Position myQueenPosition = unit.getPosition();
         List<Position> positions = new ArrayList<>();
         for (int i = 0; i < 360; i += 10) {
-            int x = (int) (unit.getRadius() * Math.cos(i));
-            int y = (int) (unit.getRadius() * Math.sin(i));
+            int x = (int) (unit.maxSteps() * Math.cos(i));
+            int y = (int) (unit.maxSteps() * Math.sin(i));
+            Position position = myQueenPosition.add(new Position(x, y));
+            if (MapInfos.isOnMap(position)) {
+                positions.add(position);
+            }
+        }
+        return positions;
+    }
+
+    public List<Position> getEscapePositions(Site site) {
+        Position myQueenPosition = site.getPosition();
+        List<Position> positions = new ArrayList<>();
+        for (int i = 0; i < 360; i += 10) {
+            int x = (int) (site.getRadius() * Math.cos(i));
+            int y = (int) (site.getRadius() * Math.sin(i));
             Position position = myQueenPosition.add(new Position(x, y));
             if (MapInfos.isOnMap(position)) {
                 positions.add(position);

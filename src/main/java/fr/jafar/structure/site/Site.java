@@ -96,6 +96,10 @@ public class Site implements Positionable {
         return this.id;
     }
 
+    public int getRadius() {
+        return radius;
+    }
+
     @Override
     public Position getPosition() {
         return this.position;
@@ -103,6 +107,16 @@ public class Site implements Positionable {
 
     public SiteState getState() {
         return state;
+    }
+
+    public int getTowerRange() {
+        return state.getTowerRange();
+    }
+
+    public boolean isInTowerRange(Positionable p) {
+        return (getTowerRange() + getRadius()) * (getTowerRange() + getRadius()) >=
+                (p.getPosition().getX() - position.getX()) * (p.getPosition().getX() - position.getX()) +
+                        (p.getPosition().getY() - position.getY()) * (p.getPosition().getY() - position.getY());
     }
 
     public void update(Scanner in) {

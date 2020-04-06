@@ -34,7 +34,16 @@ public class DefensiveAttitude implements Attitude {
             }
             Optional<Site> safeTower = getSafeTower();
             if (safeTower.isPresent()) {
-                return this.build(safeTower.get()).log("Build to next safe tower").build();
+                Site safeTowerSite = safeTower.get();
+                Unit hisSoldier = manager.getUnitManager().getHisSoldiers().stream().min((o1, o2) -> (int) (o1.getDistance(manager.getUnitManager().getMyQueen()) - o2.getDistance(manager.getUnitManager().getMyQueen()))).get();
+                if (safeTowerSite.getPosition().isBetween(hisSoldier.getPosition(), manager.getUnitManager().getMyQueen().getPosition(), 0)) {
+                    return this.build(safeTowerSite).log("Build to next safe tower").build();
+                }
+                Position behindTower = escaper.getEscapePositions(safeTowerSite).stream()
+                        .filter(safePosition -> safeTowerSite.getPosition().isBetween(hisSoldier.getPosition(), safePosition, 0))
+                        .findFirst()
+                        .get();
+                return move(behindTower);
             }
             return this.build(i.getClosestFreeSite()).log("Build to closer site").build();
         }
@@ -48,7 +57,6 @@ public class DefensiveAttitude implements Attitude {
         Unit hisSoldier = manager.getUnitManager().getHisSoldiers().stream().min((o1, o2) -> (int) (o1.getDistance(manager.getUnitManager().getMyQueen()) - o2.getDistance(manager.getUnitManager().getMyQueen()))).get();
         double hisDistance = closestFreeSite.getDistance(hisSoldier);
         double myDistance = closestFreeSite.getDistance(manager.getUnitManager().getMyQueen());
-        System.err.println("his" + hisDistance + " my:" + myDistance);
         return hisDistance * 0.9 > myDistance;
     }
 

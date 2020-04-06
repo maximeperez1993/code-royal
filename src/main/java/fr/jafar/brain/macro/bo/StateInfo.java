@@ -21,7 +21,9 @@ public class StateInfo {
         this.myQueen = this.manager.getUnitManager().getMyQueen();
         this.neutralSites = this.manager.getSiteManager().getNeutralSites();
         this.touchedSite = this.manager.getSiteManager().getTouchedSite().orElse(null);
-        this.closestFreeSite = new Finder<>(this.neutralSites).sortByClosestFrom(this.myQueen).getOptional()
+        this.closestFreeSite = new Finder<>(this.neutralSites)
+                .sortByClosestFrom(this.myQueen)
+                .filterSafeFromEnemyTowerRange(manager.getSiteManager().getHisTowers()).getOptional()
                 .orElseGet(() -> new Finder<>(this.manager.getSiteManager().getMySites()).sortByClosestFrom(this.myQueen).get());
     }
 

@@ -1,6 +1,7 @@
 package fr.jafar.util;
 
 import fr.jafar.structure.Positionable;
+import fr.jafar.structure.site.Site;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,11 @@ public class Finder<T extends Positionable> {
 
     public Finder<T> sortByClosestFrom(Positionable origin) {
         this.stream = this.stream.sorted((p1, p2) -> (int) (origin.getDistance(p1) - origin.getDistance(p2)));
+        return this;
+    }
+
+    public Finder<T> filterSafeFromEnemyTowerRange(List<Site> hisTowers) {
+        this.stream = this.stream.filter(t -> hisTowers.stream().noneMatch(tower -> tower.isInTowerRange(t)));
         return this;
     }
 

@@ -30,6 +30,7 @@ public class SiteManager {
     private List<Site> hisKnightBarracks;
     private List<Site> hisTrainingKnightBarracks;
     private List<Site> hisTrainingBarracksSites;
+    private List<Site> hisTowers;
 
     public SiteManager(List<Site> sites) {
         this.sites = sites;
@@ -60,6 +61,7 @@ public class SiteManager {
         this.hisKnightBarracks = this.hisSites.stream().filter(Site::isBarrack).filter(site -> site.getState().getUnitType() == UnitType.KNIGHT).collect(Collectors.toList());
         this.hisTrainingKnightBarracks = this.hisSites.stream().filter(Site::isTraining).filter(Site::isBarrack).filter(site -> site.getState().getUnitType() == UnitType.KNIGHT).collect(Collectors.toList());
         this.hisTrainingBarracksSites = this.hisSites.stream().filter(Site::isTraining).collect(Collectors.toList());
+        this.hisTowers = this.hisSites.stream().filter(Site::isTower).collect(Collectors.toList());
     }
 
     public List<Site> getSites() {
@@ -131,6 +133,10 @@ public class SiteManager {
 
     public List<Site> getHisTrainingKnightBarracks() {
         return hisTrainingKnightBarracks;
+    }
+
+    public List<Site> getHisTowers() {
+        return hisTowers;
     }
 
     public static SiteManager read(Scanner in) {
