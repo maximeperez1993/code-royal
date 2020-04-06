@@ -28,11 +28,8 @@ public class AggressiveAttitude implements Attitude {
         if (i.isTouchSiteUpdatable()) {
             return upgrade(i.getTouchedSite());
         }
-        if (i.isClosestFreeSiteAtRange()) {
-            return this.build(i.getClosestFreeSite()).log("Build closest").build();
-        }
-        //TODO : Should optimize movement to target
-        return this.build(i.getClosestFreeSite()).log("Move to closest to build").build();
+
+        return this.build(i.getClosestFreeSite()).log("Build closest").build();
     }
 
     @Override

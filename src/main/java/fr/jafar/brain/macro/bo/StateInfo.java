@@ -21,7 +21,8 @@ public class StateInfo {
         this.myQueen = this.manager.getUnitManager().getMyQueen();
         this.neutralSites = this.manager.getSiteManager().getNeutralSites();
         this.touchedSite = this.manager.getSiteManager().getTouchedSite().orElse(null);
-        this.closestFreeSite = new Finder<>(this.manager.getSiteManager().getNeutralSites()).sortByClosestFrom(this.myQueen).getOptional().orElse(null);
+        this.closestFreeSite = new Finder<>(this.neutralSites).sortByClosestFrom(this.myQueen).getOptional()
+                .orElseGet(() -> new Finder<>(this.manager.getSiteManager().getMySites()).sortByClosestFrom(this.myQueen).get());
     }
 
     public boolean isTouchSiteUpdatable() {
@@ -43,6 +44,10 @@ public class StateInfo {
 
     public Site getClosestFreeSite() {
         return this.closestFreeSite;
+    }
+
+    public boolean isSitesAllTaken() {
+        return this.closestFreeSite == null;
     }
 
     public boolean isUnderAttack() {
