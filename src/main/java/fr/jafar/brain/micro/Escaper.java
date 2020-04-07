@@ -1,19 +1,19 @@
 package fr.jafar.brain.micro;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.jafar.info.Manager;
 import fr.jafar.structure.Position;
+import fr.jafar.structure.Positionable;
 import fr.jafar.structure.site.Site;
 import fr.jafar.structure.unit.Unit;
 import fr.jafar.structure.unit.UnitType;
 import fr.jafar.util.MapInfos;
+import fr.jafar.util.comparators.MyComparators;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  TODO :
-  - take care about collisions with sites
-  - take care about mine destruction
   - take care about enemy towers
   - take care about collisions with soldiers
   - best of the best : simulation
@@ -38,7 +38,7 @@ public class Escaper {
 
     private double sumDistance(Position position) {
         return this.manager.his().knights()
-                .mapToDouble(soldier -> position.getDistance(soldier.getPosition()))
+            .mapToDouble(soldier -> soldier.getDistance(position))
                 .sum();
     }
 
@@ -64,14 +64,21 @@ public class Escaper {
         Position sitePosition = site.getPosition();
         List<Position> positions = new ArrayList<>();
         for (int i = 0; i < 360; i++) {
-            int x = (int)(site.getRadius() + UnitType.QUEEN.getRadius() * Math.cos(i));
-            int y = (int)(site.getRadius() + UnitType.QUEEN.getRadius() * Math.sin(i));
+            int x = (int) ((site.getRadius() + UnitType.QUEEN.getRadius()) * Math.sin(i));
+            int y = (int) ((site.getRadius() + UnitType.QUEEN.getRadius()) * Math.cos(i));
             Position position = sitePosition.add(new Position(x, y));
             if (MapInfos.isOnMap(position)) {
                 positions.add(position);
             }
         }
         return positions;
+    }
+
+    public Position behindSite(Site site, Positionable danger) {
+        return getEscapePositions(site).stream()
+                .filter(safePosition -> site.isBetween(danger, safePosition, site.getRadius()))
+                .max(MyComparators.distanceFrom(danger))
+                .get();
     }
 
 }

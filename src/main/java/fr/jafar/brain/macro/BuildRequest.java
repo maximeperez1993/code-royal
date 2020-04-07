@@ -6,8 +6,6 @@ import fr.jafar.structure.unit.UnitType;
 
 public class BuildRequest {
 
-    public enum Option {FRONTIER, SAFE_BASE, CLOSEST;}
-
     private StructureType structureType;
     private UnitType unitType;
     private Site site;
@@ -75,12 +73,16 @@ public class BuildRequest {
         return site;
     }
 
+    public String getLog() {
+        return log;
+    }
+
     @Override
     public String toString() {
         return "BuildRequest{" +
-                "structureType=" + structureType +
-                ", unitType=" + unitType +
-                ", site=" + site +
-                '}';
+            "structureType=" + structureType +
+            ", unitType=" + unitType +
+            ", site=" + site +
+            '}';
     }
 }

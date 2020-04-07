@@ -3,6 +3,7 @@ package fr.jafar.brain.micro;
 import java.util.List;
 import java.util.Optional;
 
+import fr.jafar.brain.macro.BuildRequest;
 import fr.jafar.info.Manager;
 import fr.jafar.structure.Position;
 import fr.jafar.structure.Positionable;
@@ -20,6 +21,21 @@ public class PathFinder {
 		this.escaper = new Escaper(manager);
 	}
 
+	public String goBuild(BuildRequest buildRequest) {
+		Site target = buildRequest.getSite();
+		Position position = goTo(manager.my().queen(), target).getPosition();
+		if (position == target.getPosition()) {
+			return buildRequest.build();
+		}
+		System.err.println(String.format("[%s] : %s", buildRequest.getLog(), buildRequest));
+		return String.format("MOVE %d %d", position.getX(), position.getY());
+	}
+
+	public String goTo(Positionable target) {
+		Position position = goTo(manager.my().queen(), target).getPosition();
+		return String.format("MOVE %d %d", position.getX(), position.getY());
+	}
+
 	public Positionable goTo(Unit unit, Positionable target) {
 		Optional<Site> collisionSite = getCollision(unit, target);
 		if (collisionSite.isPresent()) {
@@ -31,10 +47,10 @@ public class PathFinder {
 	public Optional<Site> getCollision(Unit unit, Positionable target) {
 		for (int i = 1; i < unit.getMaxSteps(); i++) {
 			Position futurePosition = unit.getPosition().moveExactlyTo(target.getPosition(), i);
-			if (futurePosition.equals(target.getPosition())) {
+			Unit futureUnit = new Unit.Builder(unit).position(futurePosition).build();
+			if (target.isInCollision(futureUnit)) {
 				return Optional.empty();
 			}
-			Unit futureUnit = new Unit.Builder(unit).position(futurePosition).build();
 			Optional<Site> optionalSite = manager.allSites().stream()
 				.sorted(MyComparators.distanceFrom(futurePosition))
 				.filter(site -> site.isInCollision(futureUnit))

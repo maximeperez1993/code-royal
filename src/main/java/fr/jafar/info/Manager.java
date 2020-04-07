@@ -1,12 +1,12 @@
 package fr.jafar.info;
 
-import fr.jafar.structure.Team;
-import fr.jafar.structure.site.Site;
-import fr.jafar.structure.unit.Unit;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+
+import fr.jafar.structure.Team;
+import fr.jafar.structure.site.Site;
+import fr.jafar.structure.unit.Unit;
 
 public class Manager {
 

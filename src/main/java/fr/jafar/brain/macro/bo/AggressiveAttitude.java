@@ -2,6 +2,7 @@ package fr.jafar.brain.macro.bo;
 
 import fr.jafar.brain.macro.BuildRequest;
 import fr.jafar.brain.micro.Escaper;
+import fr.jafar.brain.micro.PathFinder;
 import fr.jafar.info.Manager;
 import fr.jafar.structure.Positionable;
 import fr.jafar.structure.site.Site;
@@ -17,16 +18,29 @@ public class AggressiveAttitude implements Attitude {
 
     private final Manager manager;
     private final Escaper escaper;
+    private final PathFinder pathFinder;
 
     public AggressiveAttitude(Manager manager, Escaper escaper) {
         this.manager = manager;
         this.escaper = escaper;
+        this.pathFinder = new PathFinder(manager);
     }
 
     @Override
     public String order(StateInfo i) {
+        if (i.isTouchSiteUpdatable() && i.getTouchedSite().isMine()) {
+            return pathFinder.goBuild(upgrade(i.getTouchedSite()).log("Upgrade mine"));
+        }
+
+        if (manager.my().towers().count() >= 5) {
+            Optional<Site> towerToReplace = manager.my().safeTowersFrom(manager.his()).filter(Site::hasRemainingGold).findFirst();
+            if (towerToReplace.isPresent()) {
+                return this.build(towerToReplace.get()).log("Replace tower because i'm safe").build();
+            }
+        }
+
         if (i.isTouchSiteUpdatable()) {
-            return upgrade(i.getTouchedSite());
+            return pathFinder.goBuild(upgrade(i.getTouchedSite()).log("Upgrade tower"));
         }
 
         return this.build(i.getClosestSafeFreeSite()).log("Build closest").build();

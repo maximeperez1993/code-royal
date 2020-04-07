@@ -3,7 +3,10 @@ package fr.jafar.brain.micro;
 import fr.jafar.info.Faction;
 import fr.jafar.info.Manager;
 import fr.jafar.structure.Position;
+import fr.jafar.structure.Team;
+import fr.jafar.structure.site.Site;
 import fr.jafar.structure.unit.Unit;
+import fr.jafar.structure.unit.UnitType;
 import fr.jafar.util.MapInfos;
 import org.junit.Test;
 
@@ -14,22 +17,38 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-
 public class EscaperTest {
 
     private static final Position p1 = new Position(0, 0);
-    private static final Position p2 = new Position(0, 10);
-    private static final Position p3 = new Position(0, 20);
-    private static final Position p4 = new Position(0, 30);
-    private static final Position p5 = new Position(0, 40);
+    private static final Position p2 = new Position(0, 100);
+    private static final Position p3 = new Position(0, 200);
+    private static final Position p4 = new Position(0, 300);
+    private static final Position p5 = new Position(0, 400);
     private static final List<Position> positions = Arrays.asList(p1, p2, p3, p4, p5);
 
+    /**
+     * J'ai fais un schéma ici : https://www.geogebra.org/classic/huwjnvrj
+     */
+    @Test
+    public void behindSite() {
+        // Given
+        Unit danger = buildKnight(new Position(100, 100));
+        Site site = new Site(0, new Position(200, 200), 60);
+
+        Manager manager = mockManager(Arrays.asList(danger));
+        Escaper escaper = new Escaper(manager);
+
+        // When
+        Position result = escaper.behindSite(site, danger);
+
+        // Then
+        assertEquals(new Position(259, 267), result);
+    }
 
     @Test
     public void shouldGetFarthestPositionWithOneUnitAndLinearPath() {
         // Given
-        List<Unit> hisSoldiers = Arrays.asList(mockUnit(new Position(0, 1)));
-
+        List<Unit> hisSoldiers = Arrays.asList(buildKnight(new Position(0, 1)));
 
         Manager manager = mockManager(hisSoldiers);
         Escaper escaper = new Escaper(manager);
@@ -44,7 +63,7 @@ public class EscaperTest {
     @Test
     public void shouldGetFarthestPositionWithOneUnitAndCardinals() {
         // Given
-        List<Unit> hisSoldiers = Arrays.asList(mockUnit(MapInfos.RIGHT));
+        List<Unit> hisSoldiers = Arrays.asList(buildKnight(MapInfos.RIGHT));
 
         Manager manager = mockManager(hisSoldiers);
         Escaper escaper = new Escaper(manager);
@@ -61,8 +80,8 @@ public class EscaperTest {
     public void shouldGetFarthestPositionWithTwoUnitAndCardinals() {
         // Given
         List<Unit> hisSoldiers = Arrays.asList(
-                mockUnit(MapInfos.RIGHT),
-                mockUnit(MapInfos.BOTTOM)
+            buildKnight(MapInfos.RIGHT),
+            buildKnight(MapInfos.BOTTOM)
         );
 
         Manager manager = mockManager(hisSoldiers);
@@ -83,9 +102,8 @@ public class EscaperTest {
         return manager;
     }
 
-    private Unit mockUnit(Position position) {
-        Unit unit = mock(Unit.class);
-        when(unit.getPosition()).thenReturn(position);
-        return unit;
+    private Unit buildKnight(Position position) {
+        return new Unit(position, Team.ENEMY, UnitType.KNIGHT, 100);
     }
+
 }

@@ -10,11 +10,10 @@ public interface Attitude {
 
     BuildRequest build(Site site);
 
-    default String upgrade(Site site) {
+    default BuildRequest upgrade(Site site) {
         return new BuildRequest().a(site.getState().getStructureType())
-                .at(site)
-                .log("Upgrade")
-                .build();
+            .at(site)
+            .log("Upgrade");
     }
 
     default String move(Position position) {

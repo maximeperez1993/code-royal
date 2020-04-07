@@ -30,19 +30,6 @@ public class Unit implements Positionable {
 		System.out.println(String.format("BUILD %d BARRACKS-KNIGHT", site.getId()));
 	}
 
-	/**
-	 * (r1+r2)² >= (x1-x2)² + (y1-y2)²
-	 *
-	 * @param element
-	 * @return
-	 */
-	public boolean isInCollision(Positionable element) {
-		Position p = element.getPosition();
-		return (getRadius() + element.getRadius()) * (getRadius() + element.getRadius()) >=
-			(p.getX() - position.getX()) * (p.getX() - position.getX()) +
-				(p.getY() - position.getY()) * (p.getY() - position.getY());
-	}
-
 	public UnitType getUnitType() {
 		return unitType;
 	}

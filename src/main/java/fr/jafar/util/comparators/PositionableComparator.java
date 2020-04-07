@@ -1,19 +1,19 @@
 package fr.jafar.util.comparators;
 
-import fr.jafar.structure.Positionable;
-
 import java.util.Comparator;
+
+import fr.jafar.structure.Positionable;
 
 public class PositionableComparator implements Comparator<Positionable> {
 
-	private final PositionComparator positionComparator;
+	private final Positionable origin;
 
 	public PositionableComparator(Positionable origin) {
-		this.positionComparator = new PositionComparator(origin.getPosition());
+		this.origin = origin;
 	}
 
 	@Override
 	public int compare(Positionable p1, Positionable p2) {
-		return positionComparator.compare(p1.getPosition(), p2.getPosition());
+		return (int)(origin.getDistance(p1) - origin.getDistance(p2));
 	}
 }

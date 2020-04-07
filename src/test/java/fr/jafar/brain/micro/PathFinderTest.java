@@ -1,12 +1,5 @@
 package fr.jafar.brain.micro;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.Assert;
-import org.junit.Test;
-
 import fr.jafar.info.Manager;
 import fr.jafar.structure.Position;
 import fr.jafar.structure.Positionable;
@@ -14,6 +7,13 @@ import fr.jafar.structure.Team;
 import fr.jafar.structure.site.Site;
 import fr.jafar.structure.unit.Unit;
 import fr.jafar.structure.unit.UnitType;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -22,7 +22,7 @@ public class PathFinderTest {
 	private final Position target = new Position(224, 114);
 
 	/**
-	 * J'ai fais un graphique ici : https://www.geogebra.org/classic/tyyut7qk
+	 * J'ai fais un schéma ici : https://www.geogebra.org/classic/tyyut7qk
 	 */
 	@Test
 	public void goTo() {
@@ -39,6 +39,28 @@ public class PathFinderTest {
 			new Position(181, 167),
 			new Position(222, 125),
 			new Position(224, 114)
+		);
+		// When
+		for (Position expectedPosition : expectedPositions) {
+			Positionable newPosition = pathFinder.goTo(queen, target);
+			queen = new Unit.Builder(queen).position(newPosition.getPosition()).build();
+			Assert.assertEquals(expectedPosition, queen.getPosition());
+		}
+
+		// Then
+		Assert.assertEquals(target.getPosition(), queen.getPosition());
+	}
+
+	@Test
+	public void goTo2() {
+		// Given
+		Site target = buildSite(200, 0, 60);
+		Unit queen = buildQueen(0, 0);
+		Manager manager = mockManager(Arrays.asList(target));
+		PathFinder pathFinder = new PathFinder(manager);
+
+		List<Position> expectedPositions = Arrays.asList(
+			new Position(200, 0)
 		);
 		// When
 		for (Position expectedPosition : expectedPositions) {
