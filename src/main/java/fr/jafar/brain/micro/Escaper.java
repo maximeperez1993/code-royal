@@ -1,13 +1,14 @@
 package fr.jafar.brain.micro;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.jafar.info.Manager;
 import fr.jafar.structure.Position;
 import fr.jafar.structure.site.Site;
 import fr.jafar.structure.unit.Unit;
+import fr.jafar.structure.unit.UnitType;
 import fr.jafar.util.MapInfos;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /*
  TODO :
@@ -63,8 +64,8 @@ public class Escaper {
         Position sitePosition = site.getPosition();
         List<Position> positions = new ArrayList<>();
         for (int i = 0; i < 360; i += 2) {
-            int x = (int) (site.getRadius() * Math.cos(i));
-            int y = (int) (site.getRadius() * Math.sin(i));
+            int x = (int)(site.getRadius() + UnitType.QUEEN.getRadius() * Math.cos(i));
+            int y = (int)(site.getRadius() + UnitType.QUEEN.getRadius() * Math.sin(i));
             Position position = sitePosition.add(new Position(x, y));
             if (MapInfos.isOnMap(position)) {
                 positions.add(position);

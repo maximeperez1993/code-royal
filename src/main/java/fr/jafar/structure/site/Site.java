@@ -1,11 +1,11 @@
 package fr.jafar.structure.site;
 
+import java.util.Scanner;
+
 import fr.jafar.structure.Position;
 import fr.jafar.structure.Positionable;
 import fr.jafar.structure.Team;
 import fr.jafar.structure.unit.UnitType;
-
-import java.util.Scanner;
 
 public class Site implements Positionable {
 
@@ -14,7 +14,7 @@ public class Site implements Positionable {
     private final int radius;
     private SiteState state;
 
-    private Site(int id, Position position, int radius) {
+    public Site(int id, Position position, int radius) {
         this.id = id;
         this.position = position;
         this.radius = radius;
@@ -147,9 +147,9 @@ public class Site implements Positionable {
      */
     public boolean isInCollision(Positionable element) {
         Position p = element.getPosition();
-        return (getRadius() * element.getRadius()) * (getRadius() * element.getRadius()) >=
-                (p.getX() - position.getX()) * (p.getX() - position.getX()) +
-                        (p.getY() - position.getY()) * (p.getY() - position.getY());
+        return (getRadius() + element.getRadius()) * (getRadius() + element.getRadius()) >=
+            (p.getX() - position.getX()) * (p.getX() - position.getX()) +
+                (p.getY() - position.getY()) * (p.getY() - position.getY());
     }
 
     public void update(Scanner in) {

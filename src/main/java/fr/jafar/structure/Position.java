@@ -39,13 +39,17 @@ public class Position implements Positionable {
 
     public Position resize(int newLength) {
         double length = Math.sqrt(x * x + y * y);
-        return new Position((int) (x / length) * newLength, (int) (y / length) * newLength);
+        return new Position((int)((x / length) * newLength), (int)((y / length) * newLength));
     }
 
     public Position moveTo(Position other, int maxSteps) {
         if (getDistance(other) < maxSteps) {
-            return new Position(this);
+            return new Position(other);
         }
+        return this.add(other.sub(this).resize(maxSteps));
+    }
+
+    public Position moveExactlyTo(Position other, int maxSteps) {
         return this.add(other.sub(this).resize(maxSteps));
     }
 
