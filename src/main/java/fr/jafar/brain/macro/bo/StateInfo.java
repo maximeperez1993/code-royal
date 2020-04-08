@@ -21,6 +21,7 @@ public class StateInfo {
         this.touchedSite = this.manager.getTouchedSite().orElse(null);
         this.closestSafeFreeSite = new Finder<>(this.manager.free().sites())
                 .sortByClosestFrom(this.myQueen)
+                //.filterSafeFromEnemyTowerRange(manager.his().towers().collect(Collectors.toList()), myQueen).getOptional()
                 .filterSafeFromEnemyTowerRange(manager.his().towers().collect(Collectors.toList())).getOptional()
                 .orElseGet(() -> new Finder<>(this.manager.my().sites()).sortByClosestFrom(this.myQueen).get());
 

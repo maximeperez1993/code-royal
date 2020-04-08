@@ -28,6 +28,13 @@ public class AggressiveAttitude implements Attitude {
 
     @Override
     public String order(StateInfo i) {
+        Optional<Site> hisBarrack = manager.his().barracks()
+                .filter(barrack -> barrack.getDistance(manager.my().queen()) < 200)
+                .min(MyComparators.distanceFrom(manager.my().queen()));
+        if (hisBarrack.isPresent() && !isEnemyTrainingSoldiers()) {
+            return pathFinder.goBuild(this.build(hisBarrack.get()).log("Destroy his barrack (distance < 200)"));
+        }
+
         if (i.isTouchSiteUpdatable() && i.getTouchedSite().isMine()) {
             return pathFinder.goBuild(upgrade(i.getTouchedSite()).log("Upgrade mine"));
         }
@@ -35,7 +42,7 @@ public class AggressiveAttitude implements Attitude {
         if (manager.my().towers().count() >= 5) {
             Optional<Site> towerToReplace = manager.my().safeTowersFrom(manager.his()).filter(Site::hasRemainingGold).findFirst();
             if (towerToReplace.isPresent()) {
-                return this.build(towerToReplace.get()).log("Replace tower because i'm safe").build();
+                return pathFinder.goBuild(this.build(towerToReplace.get()).log("Replace tower because i'm safe"));
             }
         }
 
@@ -43,7 +50,7 @@ public class AggressiveAttitude implements Attitude {
             return pathFinder.goBuild(upgrade(i.getTouchedSite()).log("Upgrade tower"));
         }
 
-        return this.build(i.getClosestSafeFreeSite()).log("Build closest").build();
+        return pathFinder.goBuild(this.build(i.getClosestSafeFreeSite()).log("Build closest"));
     }
 
     @Override

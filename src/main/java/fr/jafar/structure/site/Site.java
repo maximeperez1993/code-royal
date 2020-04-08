@@ -1,11 +1,11 @@
 package fr.jafar.structure.site;
 
-import java.util.Scanner;
-
 import fr.jafar.structure.Position;
 import fr.jafar.structure.Positionable;
 import fr.jafar.structure.Team;
 import fr.jafar.structure.unit.UnitType;
+
+import java.util.Scanner;
 
 public class Site implements Positionable {
 
@@ -134,11 +134,14 @@ public class Site implements Positionable {
      * @return
      */
     public boolean isInTowerRange(Positionable p) {
-        return (getTowerRange() + getRadius() + p.getRadius()) * (getTowerRange() + getRadius() + p.getRadius()) >=
+        return (getTowerRange() + p.getRadius()) * (getTowerRange() + p.getRadius()) >=
                 (p.getPosition().getX() - position.getX()) * (p.getPosition().getX() - position.getX()) +
                         (p.getPosition().getY() - position.getY()) * (p.getPosition().getY() - position.getY());
     }
 
+    public void setState(SiteState state) {
+        this.state = state;
+    }
 
     public void update(Scanner in) {
         if (in.nextInt() != id) {

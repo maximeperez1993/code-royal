@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class TrainManager {
 
     private final Manager manager;
+    private boolean shouldTrain = false;
 
     public TrainManager(Manager manager) {
         this.manager = manager;
@@ -21,17 +22,21 @@ public class TrainManager {
     }
 
     private String getTrainString(int gold) {
-        if (!manager.my().sites().findAny().isPresent()) {
-            return "TRAIN";
+        shouldTrain = shouldTrain(gold);
+        if (shouldTrain && manager.my().readyBarracks().count() > 0) {
+            return train(getSitesToTrain(gold));
         }
-        List<Site> sitesToTrain = this.getSitesToTrain(gold);
-        if (sitesToTrain.isEmpty()) {
-            return "TRAIN";
+        return "TRAIN";
+    }
+
+    private boolean shouldTrain(int gold) {
+        if (gold < 80) {
+            return false;
         }
-        return "TRAIN " + sitesToTrain.stream()
-                .map(Site::getId)
-                .map(Object::toString)
-                .collect(Collectors.joining(" "));
+        if (gold >= 160 - manager.my().currentIncome()) {
+            return true;
+        }
+        return shouldTrain;
     }
 
     private List<Site> getSitesToTrain(int gold) {
@@ -48,5 +53,12 @@ public class TrainManager {
             }
         }
         return sitesToTrain;
+    }
+
+    private String train(List<Site> barracks) {
+        return "TRAIN " + barracks.stream()
+                .map(Site::getId)
+                .map(Object::toString)
+                .collect(Collectors.joining(" "));
     }
 }

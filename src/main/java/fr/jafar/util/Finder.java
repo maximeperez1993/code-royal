@@ -1,7 +1,9 @@
 package fr.jafar.util;
 
+import fr.jafar.structure.Position;
 import fr.jafar.structure.Positionable;
 import fr.jafar.structure.site.Site;
+import fr.jafar.structure.unit.Unit;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +36,17 @@ public class Finder<T extends Positionable> {
         this.stream = this.stream.filter(t -> hisTowers.stream().noneMatch(tower -> tower.isInTowerRange(t)));
         return this;
     }
+
+    public Finder<T> filterSafeFromEnemyTowerRange(List<Site> hisTowers, Unit ifUnitGoesThere) {
+        this.stream = this.stream.filter(t -> hisTowers.stream().noneMatch(tower -> tower.isInTowerRange(predictPositionIfMoveThere(ifUnitGoesThere, t))));
+        return this;
+    }
+
+    private Unit predictPositionIfMoveThere(Unit unit, T site) {
+        Position position = unit.getPosition().moveExactlyTo(site.getPosition(), (int) unit.getDistance((site)));
+        return new Unit.Builder(unit).position(position).build();
+    }
+
 
     public Optional<T> getOptional() {
         return this.stream.findFirst();

@@ -41,13 +41,12 @@ public class EarlyAttitude implements Attitude {
         this.manager = manager;
         this.escaper = escaper;
         this.pathFinder = new PathFinder(manager);
-        this.buildOrderModel = HIGH_HP_BO;
         this.buildOrder = new ArrayList<>();
     }
 
     @Override
     public String order(StateInfo i) {
-        this.buildOrderModel = manager.getStartHp() <= 40 ? LOW_HP_BO : HIGH_HP_BO;
+        this.buildOrderModel = selectBuildOrderModel();
         if (i.isTouchSiteUpdatable()) {
             return pathFinder.goBuild(upgrade(i.getTouchedSite()));
         }
@@ -57,6 +56,17 @@ public class EarlyAttitude implements Attitude {
         }
 
         return pathFinder.goBuild(this.build(i.getClosestSafeFreeSite()).log("Build closest"));
+    }
+
+    private List<BuildRequest> selectBuildOrderModel() {
+        /*
+        if (manager.getNbTurn() < 3 && manager.his().barracks().count() == 1) {
+            return LOW_HP_BO;
+        }*/
+        if (this.buildOrderModel == null) {
+            return manager.getStartHp() <= 40 ? LOW_HP_BO : HIGH_HP_BO;
+        }
+        return this.buildOrderModel;
     }
 
     @Override
@@ -72,6 +82,9 @@ public class EarlyAttitude implements Attitude {
     }
 
     public boolean isFinish() {
+        if (buildOrderModel == null) {
+            return false;
+        }
         if (!isFinish) {
             isFinish = buildOrder.size() == buildOrderModel.size() && shouldBuildNext();
         }

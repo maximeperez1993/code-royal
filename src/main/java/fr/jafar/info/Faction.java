@@ -96,7 +96,7 @@ public class Faction {
                 .max().orElse(0);
         return towers()
                 .filter(tower -> towersThatProtect(tower, danger).count() == max)
-                .min(Comparator.comparingDouble(tower -> tower.getDistance(startPosition())));
+                .max(Comparator.comparingDouble(tower -> tower.getDistance(danger)));
     }
 
     public Stream<Site> safeTowersFrom(Faction other) {

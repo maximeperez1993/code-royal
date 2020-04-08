@@ -1,12 +1,12 @@
 package fr.jafar.info;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
-
 import fr.jafar.structure.Team;
 import fr.jafar.structure.site.Site;
 import fr.jafar.structure.unit.Unit;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
 
 public class Manager {
 
@@ -14,6 +14,7 @@ public class Manager {
 
     private Site touchedSite;
     private int startHp = 0;
+    private int nbTurn = 0;
 
     private Faction my;
     private Faction his;
@@ -32,6 +33,7 @@ public class Manager {
         this.his = new Faction(Team.ENEMY, this.sites, units);
         this.free = new Faction(Team.NEUTRAL, this.sites, units);
         this.startHp = startHp == 0 ? my.queen().getHealth() : startHp;
+        this.nbTurn++;
     }
 
     public Faction my() {
@@ -53,6 +55,10 @@ public class Manager {
 
     public int getStartHp() {
         return startHp;
+    }
+
+    public int getNbTurn() {
+        return nbTurn;
     }
 
     public Optional<Site> getTouchedSite() {
