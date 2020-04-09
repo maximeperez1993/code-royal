@@ -38,9 +38,9 @@ public class DefensiveAttitude implements Attitude {
 
         Unit hisCloserKnight = manager.his().knightCloserOf(manager.my().queen()).orElseThrow(IllegalStateException::new);
         System.err.println("HisCloserKnight=" + hisCloserKnight);
-        long nbTowersBetweenKnightAndMe = manager.my().towersThatProtect(manager.my().queen(), hisCloserKnight).count();
 
-        if (nbTowersBetweenKnightAndMe > 4) {
+
+        if (isEnoughSafeToBuildMine(i, hisCloserKnight)) {
             Optional<Site> safeTower = manager.my().mostSafeTowerFrom(manager.his());
             if (safeTower.isPresent() && safeTower.get().hasRemainingGold()) {
                 return pathFinder.goBuild(
@@ -48,32 +48,39 @@ public class DefensiveAttitude implements Attitude {
             }
         }
 
-        if (i.isCloserSoldierUnder(2000)) {
-            Optional<Site> freeAndSafeSite = getFreeAndSafeSite();
-            if (freeAndSafeSite.isPresent()) {
-                return pathFinder.goBuild(this.build(freeAndSafeSite.get()).log("Build to free & safe site"));
+
+        Optional<Site> freeAndSafeSite = getFreeAndSafeSite();
+        if (freeAndSafeSite.isPresent()) {
+            return pathFinder.goBuild(this.build(freeAndSafeSite.get()).log("Build to free & safe site"));
+        }
+        Optional<Site> safeTower = manager.my().mostSafeTowerFrom(manager.his());
+        if (safeTower.isPresent()) {
+            Site safeTowerSite = safeTower.get();
+            if (safeTowerSite.isBetween(hisCloserKnight, manager.my().queen(), safeTowerSite.getRadius()) && safeTowerSite.getHealth() < 790) {
+                return pathFinder.goBuild(this.build(safeTowerSite).log("Build to next safe tower " + safeTowerSite));
             }
-            Optional<Site> safeTower = manager.my().mostSafeTowerFrom(manager.his());
-            if (safeTower.isPresent()) {
-                Site safeTowerSite = safeTower.get();
-                if (safeTowerSite.isBetween(hisCloserKnight, manager.my().queen(), safeTowerSite.getRadius())) {
-                    return pathFinder.goBuild(this.build(safeTowerSite).log("Build to next safe tower " + safeTowerSite));
-                }
-                Position behindTower = escaper.behindSite(safeTowerSite, hisCloserKnight);
-                System.err.println("Try to go behind safe tower " + safeTowerSite + " at " + behindTower);
-                return pathFinder.goTo(behindTower);
-            }
-            Site closerTower = manager.my().towers().max(MyComparators.distanceFrom(hisCloserKnight)).get();
-            Position behindTower = escaper.behindSite(closerTower, hisCloserKnight);
-            System.err.println("Try to go behind closer tower " + closerTower + " at " + behindTower);
+            Position behindTower = escaper.behindSite(safeTowerSite, hisCloserKnight);
+            System.err.println("Try to go behind safe tower " + safeTowerSite + " at " + behindTower);
             return pathFinder.goTo(behindTower);
         }
-        if (i.isTouchSiteTowerLowHp()) {
-            return pathFinder.goBuild(upgrade(i.getTouchedSite()));
-        }
-        return pathFinder.goBuild(this.build(i.getClosestSafeFreeSite()).log("Soldiers far away, we can try to build"));
+        Site closerTower = manager.my().towers().max(MyComparators.distanceFrom(hisCloserKnight)).get();
+        Position behindTower = escaper.behindSite(closerTower, hisCloserKnight);
+        System.err.println("Try to go behind closer tower " + closerTower + " at " + behindTower);
+        return pathFinder.goTo(behindTower);
     }
 
+    private boolean isEnoughSafeToBuildMine(StateInfo i, Unit hisCloserKnight) {
+        long nbTowersBetweenKnightAndMe = manager.my().towersThatProtect(manager.my().queen(), hisCloserKnight).count();
+        int maxDistance = 550;
+        if (nbTowersBetweenKnightAndMe > 7) {
+            maxDistance = 500;
+        }
+        if (nbTowersBetweenKnightAndMe > 8) {
+            maxDistance = 450;
+        }
+
+        return nbTowersBetweenKnightAndMe > 4 && !i.isCloserSoldierUnder(maxDistance);
+    }
 
     private boolean hasTimeToBuild(Site closestFreeSite) {
         Unit hisKnight = manager.his().knightCloserOf(closestFreeSite).get();

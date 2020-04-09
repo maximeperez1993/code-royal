@@ -127,6 +127,10 @@ public class Site implements Positionable {
         return state.getTowerRange();
     }
 
+    public int getHealth() {
+        return state.getRemainTurn();
+    }
+
     /**
      * (r1+r2+range)² >= (x1-x2)² + (y1-y2)²
      *
