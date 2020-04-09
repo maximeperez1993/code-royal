@@ -38,7 +38,7 @@ public class Escaper {
 
     private double sumDistance(Position position) {
         return this.manager.his().knights()
-            .mapToDouble(soldier -> soldier.getDistance(position))
+                .mapToDouble(soldier -> soldier.getDistance(position))
                 .sum();
     }
 
@@ -75,6 +75,7 @@ public class Escaper {
     }
 
     public Position behindSite(Site site, Positionable danger) {
+        System.err.println("Danger comes from " + danger);
         return getEscapePositions(site).stream()
                 .filter(safePosition -> site.isBetween(danger, safePosition, site.getRadius()))
                 .max(MyComparators.distanceFrom(danger))

@@ -59,12 +59,12 @@ public class DefensiveAttitude implements Attitude {
             if (safeTowerSite.isBetween(hisCloserKnight, manager.my().queen(), safeTowerSite.getRadius()) && safeTowerSite.getHealth() < 790) {
                 return pathFinder.goBuild(this.build(safeTowerSite).log("Build to next safe tower " + safeTowerSite));
             }
-            Position behindTower = escaper.behindSite(safeTowerSite, hisCloserKnight);
+            Position behindTower = escaper.behindSite(safeTowerSite, manager.my().getDangerMeanUnit(manager.his()));
             System.err.println("Try to go behind safe tower " + safeTowerSite + " at " + behindTower);
             return pathFinder.goTo(behindTower);
         }
         Site closerTower = manager.my().towers().max(MyComparators.distanceFrom(hisCloserKnight)).get();
-        Position behindTower = escaper.behindSite(closerTower, hisCloserKnight);
+        Position behindTower = escaper.behindSite(closerTower, manager.my().getDangerMeanUnit(manager.his()));
         System.err.println("Try to go behind closer tower " + closerTower + " at " + behindTower);
         return pathFinder.goTo(behindTower);
     }

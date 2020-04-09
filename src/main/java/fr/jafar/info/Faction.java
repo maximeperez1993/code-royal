@@ -87,27 +87,21 @@ public class Faction {
 
     public Optional<Site> mostSafeTowerFrom(Faction other) {
         Optional<Positionable> optionalDanger = getDanger(other);
-        if (!optionalDanger.isPresent()) {
-            return towers().max(Comparator.comparingDouble(tower -> tower.getDistance(startPosition())));
+        if (optionalDanger.isPresent()) {
+            return towers().max(Comparator.comparingDouble(tower -> this.underTowerPositions(tower, optionalDanger.get()).size()));
         }
-        Positionable danger = optionalDanger.get();
-        long max = towers().peek(tower -> System.err.println("tower:" + tower.getId() + " protected by " + towersThatProtect(tower, danger).count() + "towers"))
-                .mapToLong(tower -> towersThatProtect(tower, danger).count())
-                .max().orElse(0);
-        return towers()
-                .filter(tower -> towersThatProtect(tower, danger).count() == max)
-                .max(Comparator.comparingDouble(tower -> tower.getDistance(danger)));
+        return towers().max(Comparator.comparingDouble(tower -> tower.getDistance(MapInfos.MIDDLE)));
     }
 
     public Stream<Site> safeTowersFrom(Faction other) {
         Optional<Positionable> danger = getDanger(other);
         if (danger.isPresent()) {
-            return towers().sorted(Comparator.comparingLong(tower -> towersThatProtect(tower, danger.get()).count()));
+            return towers().sorted(Comparator.comparingLong(tower -> -towersThatProtect(tower, danger.get()).count()));
         }
-        return towers().sorted(Comparator.comparingDouble(tower -> tower.getDistance(startPosition())));
+        return towers().sorted(Comparator.comparingDouble(tower -> -tower.getDistance(startPosition())));
     }
 
-    private Optional<Positionable> getDanger(Faction other) {
+    public Optional<Positionable> getDanger(Faction other) {
         Optional<Site> barrack = other.knightBarrackCloserOf(queen());
         if (barrack.isPresent()) {
             return Optional.of(barrack.get());
@@ -117,6 +111,17 @@ public class Faction {
             return Optional.of(knight.get());
         }
         return Optional.empty();
+    }
+
+    public Positionable getDangerMeanUnit(Faction other) {
+        Position position = new Position(0, 0);
+        if (other.knights.isEmpty()) {
+            return other.knightBarrackCloserOf(queen()).map(Site::getPosition).orElse(MapInfos.MIDDLE);
+        }
+        for (Unit knight : other.knights) {
+            position = position.add(knight.getPosition());
+        }
+        return new Position(position.getX() / other.knights.size(), position.getY() / other.knights.size());
     }
 
 
@@ -135,6 +140,19 @@ public class Faction {
     public Position startPosition() {
         return START_POSITIONS.get(team);
     }
+
+    private List<Position> underTowerPositions(Positionable elementToProtect, Positionable from) {
+        List<Position> positions = new ArrayList<>();
+        int distance = (int) from.getDistance(elementToProtect);
+        for (int i = 0; i < distance + 200; i += 2) {
+            Position position = from.getPosition().moveExactlyTo(elementToProtect.getPosition(), i);
+            if (towers().anyMatch(tower -> tower.isInTowerRange(position))) {
+                positions.add(position);
+            }
+        }
+        return positions;
+    }
+
 
     private boolean isInTeam(Unit unit) {
         return unit.getTeam() == this.team;

@@ -42,7 +42,7 @@ public class AggressiveAttitude implements Attitude {
         if (manager.my().towers().count() >= 5) {
             Optional<Site> towerToReplace = manager.my().safeTowersFrom(manager.his()).filter(Site::hasRemainingGold).findFirst();
             if (towerToReplace.isPresent()) {
-                return pathFinder.goBuild(this.build(towerToReplace.get()).log("Replace tower because i'm safe"));
+                return pathFinder.goBuild(new BuildRequest().a(StructureType.MINE).at(towerToReplace.get()).log("Replace tower because i'm safe"));
             }
         }
 

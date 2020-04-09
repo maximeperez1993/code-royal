@@ -33,6 +33,9 @@ public class TrainManager {
         if (gold < 80) {
             return false;
         }
+        if (manager.my().knights().count() >= 2) {
+            return true;
+        }
         if (gold >= 160 - manager.my().currentIncome()) {
             return true;
         }
